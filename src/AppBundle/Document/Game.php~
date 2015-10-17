@@ -1,0 +1,63 @@
+<?php
+
+namespace AppBundle\Document;
+
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+
+/**
+ * AppBundle\Document\Game
+ *
+ * @ODM\Document
+ * @ODM\ChangeTrackingPolicy("DEFERRED_IMPLICIT")
+ */
+class Game
+{
+    /**
+     * @var string $id
+     *
+     * @ODM\Id(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     * @var Player
+     * @ODM\ReferenceOne(name="player1", targetDocument="Player", mappedBy="games")
+     */
+    protected $player1;
+
+    /**
+     * @var Player
+     * @ODM\ReferenceOne(name="player2", targetDocument="Player", mappedBy="games")
+     */
+    protected $player2;
+
+    /**
+     * @var int
+     * @ODM\Integer(name="winner")
+     */
+    protected $winner;
+
+    /**
+     * @var int
+     * @ODM\Integer(name="player1_elochange"))
+     */
+    protected $player1Elochange;
+
+    /**
+     * @var int
+     * @ODM\Integer(name="player2_elochange"))
+     */
+    protected $player2Elochange;
+
+    /**
+     * @var \DateTime
+     * @ODM\Date(name="date")
+     */
+    protected $date;
+
+    public function __construct()
+    {
+        $this->date = new \DateTime();
+    }
+
+}

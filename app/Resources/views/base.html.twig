@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Scan Gammon{% endblock %}</title>
+        {% block stylesheets %}
+            <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+            <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
+            <link rel="stylesheet" href="{{ asset('vendor/app.css') }}">
+            {% block styles %}{% endblock %}
+        {% endblock %}
+    </head>
+    <body>
+        {% block body %}{% endblock %}
+        {% block javascripts %}
+            <script src="https://cdn.rawgit.com/kvz/phpjs/master/functions/strings/sprintf.js"></script>
+            <script src="{{ asset('vendor/app.js') }}"></script>
+            {% block scripts %}{% endblock %}
+        {% endblock %}
+    </body>
+</html>

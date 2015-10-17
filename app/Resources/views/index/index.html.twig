@@ -1,0 +1,18 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<div class="container-fluid" ng-app="myApp">
+
+    <h1>Scan Gaming</h1>
+
+    {{ include(':index/_partial:game.html.twig') }}
+    {{ include(':index/_partial:stats.html.twig') }}
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $('select').select2();
+</script>
+{% endblock %}

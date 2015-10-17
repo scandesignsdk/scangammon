@@ -1,0 +1,35 @@
+<div class="game" ng-controller="CreateGameCtrl" data-ng-init="init()">
+
+    <form class="row">
+        <div class="md6">
+            <div class="form-group">
+                <label for="player1"></label>
+                <select class="form-control" id="player1" data-placeholder="Select a player">
+                    <option></option>
+                    <option ng-repeat="player in players" value="{{ ng('player.id') }}">{{ ng('player.name') }}</option>
+                </select>
+            </div>
+            <button class="btn btn-block btn-success">Winner</button>
+        </div>
+
+        <div class="md6">
+            <div class="form-group">
+                <label for="player2"></label>
+                <select class="form-control" id="player2" data-placeholder="Select a player">
+                    <option></option>
+                    <option ng-repeat="player in players" value="{{ ng('player.id') }}">{{ ng('player.name') }}</option>
+                </select>
+            </div>
+            <button class="btn btn-block btn-success">Winner</button>
+        </div>
+    </form>
+
+    <ul class="list-group">
+        <li>Cras justo odio</li>
+        <li>Dapibus ac facilisis in</li>
+        <li>Morbi leo risus</li>
+        <li>Porta ac consectetur ac</li>
+        <li>Vestibulum at eros</li>
+    </ul>
+
+</div>

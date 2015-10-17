@@ -1,0 +1,57 @@
+services:
+    stats:
+        class: AppBundle\Stats\Stats
+
+#    stats.game.highelo:
+#        class: AppBundle\Stats\Game\HighestEloChangeStats
+#        arguments: [@repo.game]
+#        tags:
+#            -  { name: stats.add }
+#
+#    stats.game.lowelo:
+#        class: AppBundle\Stats\Game\LowestEloChangeStats
+#        arguments: [@repo.game]
+#        tags:
+#            -  { name: stats.add }
+
+    stats.game.total:
+        class: AppBundle\Stats\Game\TotalGameStats
+        arguments: [@repo.game]
+        tags:
+            -  { name: stats.add }
+
+    stats.player.highrank:
+        class: AppBundle\Stats\Player\HighestRankedStats
+        arguments: [@repo.player]
+        tags:
+            -  { name: stats.add }
+
+    stats.player.lowrank:
+        class: AppBundle\Stats\Player\LowestRankedStats
+        arguments: [@repo.player]
+        tags:
+            -  { name: stats.add }
+
+#    stats.player.mostplayed:
+#        class: AppBundle\Stats\Player\MostPlayedStats
+#        arguments: [@repo.player, @repo.game]
+#        tags:
+#            -  { name: stats.add }
+#
+#    stats.player.mostplayedplayer:
+#        class: AppBundle\Stats\Player\MostPlayedPlayerStats
+#        arguments: [@repo.player, @repo.game]
+#        tags:
+#            -  { name: stats.add }
+
+    stats.player.total:
+        class: AppBundle\Stats\Player\TotalPlayerStats
+        arguments: [@repo.player]
+        tags:
+            -  { name: stats.add }
+
+    stats.player.avg:
+        class: AppBundle\Stats\Player\AverageEloStats
+        arguments: [@repo.player]
+        tags:
+            -  { name: stats.add }

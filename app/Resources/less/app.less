@@ -1,0 +1,50 @@
+@import "../../../web/assets/bootstrap/less/bootstrap";
+@import "../../../web/assets/font-awesome/less/font-awesome";
+
+h1 {
+  font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-align: center;
+  border-bottom: 1px solid @gray-lighter;
+  margin-bottom: 20px;
+  padding-bottom: 5px;
+}
+
+ul.list-group {
+  margin-top:20px;
+  > li {
+    .list-group-item;
+  }
+}
+
+.md6 {
+  .make-md-column(6);
+}
+
+.md4 {
+  .make-md-column(4);
+}
+
+.md2 {
+  .make-md-column(2);
+}
+
+.game {
+  .make-md-column(6);
+}
+
+.stats {
+  .make-md-column(6);
+
+  .group {
+    .list-group;
+    > div {
+      .list-group-item;
+      > h4 {
+        .list-group-item-heading;
+      }
+      > p {
+        .list-group-item-text
+      }
+    }
+  }
+}

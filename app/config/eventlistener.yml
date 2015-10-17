@@ -1,0 +1,6 @@
+services:
+    player.create.listener:
+        class: AppBundle\Listener\Listener
+        arguments: [@lopi_pusher.pusher, @serializer, @stats]
+        tags:
+            - { name: kernel.event_subscriber }

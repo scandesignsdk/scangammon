@@ -1,0 +1,13 @@
+{
+  "name": "scan gammon",
+  "dependencies": {
+    "bootstrap": "~3.3.5",
+    "font-awesome": "~4.4.0",
+    "pusher": "~3.0.0",
+    "angular": "~1.4.7",
+    "select2": "~4.0.0",
+    "angular-http": "~1.0.0",
+    "moment": "~2.10.6",
+    "angular-moment": "~0.10.3"
+  }
+}

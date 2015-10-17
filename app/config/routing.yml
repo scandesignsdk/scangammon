@@ -1,0 +1,23 @@
+view:
+    resource: "@ViewBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+NelmioApiDocBundle:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix:   /doc
+
+player:
+    resource: @AppBundle/Resources/config/player_routes.yml
+    type:     rest
+    prefix:   /api/player
+
+game:
+    resource: @AppBundle/Resources/config/game_routes.yml
+    type:     rest
+    prefix:   /api/game
+
+stats:
+    resource: @AppBundle/Resources/config/stats_routes.yml
+    type:     rest
+    prefix:   /api/stats

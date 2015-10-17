@@ -1,0 +1,13 @@
+<div ng-controller="LatestCtrl" data-ng-init="init()">
+    <ul class="list-group">
+        <li ng-repeat="game in games">
+            <span game-html
+                  player1name="{{ ng('game.player1.name') }}"
+                  player1elo="{{ ng('game.player1.elo') }}"
+                  player2name="{{ ng('game.player2.name') }}"
+                  player2elo="{{ ng('game.player2.elo') }}"
+                  gamewinner="{{ ng('game.winner') }}"
+                  gamedate="{{ ng('game.date') }}"></span>
+        </li>
+    </ul>
+</div>
