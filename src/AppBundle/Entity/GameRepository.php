@@ -16,17 +16,17 @@ class GameRepository extends EntityRepository
     /**
      * @param Player $p1
      * @param Player $p2
-     * @return \Doctrine\ODM\MongoDB\Query\Builder
+     * @return \Doctrine\ORM\QueryBuilder
      */
     public function findByPlayers(Player $p1, Player $p2)
     {
         $builder = $this->createQueryBuilder('game');
-        $builder->andWhere(
-            $builder->orWhere(
+        $builder->where(
+            $builder->expr()->orX(
                 $builder->expr()->eq('game.player1', $p1->getId()),
                 $builder->expr()->eq('game.player2', $p1->getId())
             ),
-            $builder->orWhere(
+            $builder->expr()->orX(
                 $builder->expr()->eq('game.player1', $p2->getId()),
                 $builder->expr()->eq('game.player2', $p2->getId())
             )

@@ -35,13 +35,13 @@ class Listener implements EventSubscriberInterface
     {
         $this->pusher->trigger(
             'scangammon',
-            'player.added',
+            Events::PLAYER_CREATE,
             $this->serializer->serialize($event->getPlayer(), 'json')
         );
 
         $this->pusher->trigger(
             'scangammon',
-            'stats.updated',
+            Events::STATS_UPDATED,
             $this->serializer->serialize($this->stats->getAll(), 'json')
         );
     }
@@ -50,13 +50,13 @@ class Listener implements EventSubscriberInterface
     {
         $this->pusher->trigger(
             'scangammon',
-            'game.added',
+            Events::GAME_CREATED,
             $this->serializer->serialize($event->getGame(), 'json')
         );
 
         $this->pusher->trigger(
             'scangammon',
-            'stats.updated',
+            Events::STATS_UPDATED,
             $this->serializer->serialize($this->stats->getAll(), 'json')
         );
     }
@@ -65,13 +65,13 @@ class Listener implements EventSubscriberInterface
     {
         $this->pusher->trigger(
             'scangammon',
-            'game.deleted',
+            Events::GAME_DELETED,
             $this->serializer->serialize($event->getGame(), 'json')
         );
 
         $this->pusher->trigger(
             'scangammon',
-            'stats.updated',
+            Events::STATS_UPDATED,
             $this->serializer->serialize($this->stats->getAll(), 'json')
         );
     }

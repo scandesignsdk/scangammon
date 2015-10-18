@@ -4,32 +4,30 @@
         <div class="md6">
             <div class="form-group">
                 <label for="player1"></label>
-                <select class="form-control" id="player1" data-placeholder="Select a player">
+                <select class="form-control" id="player1" data-placeholder="Select a player" ng-model="player1" ng-change="update()">
                     <option></option>
-                    <option ng-repeat="player in players" value="{{ ng('player.id') }}">{{ ng('player.name') }}</option>
+                    <option ng-repeat="player in players track by $index" value="{{ ng('player.id') }}">{{ ng('player.name') }} - {{ ng('player.elo') }}</option>
                 </select>
             </div>
-            <button class="btn btn-block btn-success">Winner</button>
+            <button ng-show="showWinner" ng-click="addGame(1)" class="btn btn-block btn-success">Winner</button>
         </div>
 
         <div class="md6">
             <div class="form-group">
                 <label for="player2"></label>
-                <select class="form-control" id="player2" data-placeholder="Select a player">
+                <select class="form-control" id="player2" data-placeholder="Select a player" ng-model="player2" ng-change="update()">
                     <option></option>
-                    <option ng-repeat="player in players" value="{{ ng('player.id') }}">{{ ng('player.name') }}</option>
+                    <option ng-repeat="player in players track by $index" value="{{ ng('player.id') }}">{{ ng('player.name') }} - {{ ng('player.elo') }}</option>
                 </select>
             </div>
-            <button class="btn btn-block btn-success">Winner</button>
+            <button ng-show="showWinner" ng-click="addGame(2)" class="btn btn-block btn-success">Winner</button>
         </div>
     </form>
 
-    <ul class="list-group">
-        <li>Cras justo odio</li>
-        <li>Dapibus ac facilisis in</li>
-        <li>Morbi leo risus</li>
-        <li>Porta ac consectetur ac</li>
-        <li>Vestibulum at eros</li>
+    <ul class="list-group" ng-show="games.length > 0">
+        <li ng-repeat="game in games">
+            <span game-html game="{{ ng('game') }}"></span>
+        </li>
     </ul>
 
 </div>

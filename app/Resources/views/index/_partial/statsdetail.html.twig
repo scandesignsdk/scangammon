@@ -1,15 +1,11 @@
-<div class="md6" ng-controller="StatsCtrl" data-ng-init="init()">
-
-    <div class="group" ng-repeat="(header, stat) in stats">
-        <div>
-            <h4>{{ ng('header') }}</h4>
-            <p ng-if="header.indexOf('[PLAYER]') > -1">
-                <span player-html name="{{ ng('stat.name') }}" elo="{{ ng('stat.elo') }}" bold="1"></span>
-            </p>
-            <p ng-if="header.indexOf('[PLAYER]') === -1">
-                <b>{{ ng('stat') }}</b>
-            </p>
-        </div>
+<div class="group" ng-repeat="(header, stat) in stats">
+    <div>
+        <h4>{{ ng('header') }}</h4>
+        <p ng-if="header.indexOf('[PLAYER]') > -1">
+            <span player-html name="{{ ng('stat.name') }}" elo="{{ ng('stat.elo') }}" bold="1"></span>
+        </p>
+        <p ng-if="header.indexOf('[PLAYER]') === -1">
+            <b>{{ ng('stat') }}</b>
+        </p>
     </div>
-
 </div>

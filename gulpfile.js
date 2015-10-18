@@ -11,6 +11,7 @@ var gulp = require('gulp'),
     sourcemaps = require('gulp-sourcemaps'),
     uglify = require('gulp-uglify'),
     concat = require('gulp-concat'),
+    flatten = require('gulp-flatten'),
     dev = false
 ;
 
@@ -41,21 +42,20 @@ gulp.task('less', function() {
 
 });
 
-gulp.task('bower', function() {
-    var files = bowerFiles({filter: ['**/*.js'], debug: false});
-    files.push(paths.app + '/js/**/*.js');
-
-    var src = gulp.src(files);
+gulp.task('js', function() {
+    var src = gulp.src(paths.app + '/js/**/*.js');
     if (dev) {
         src.pipe(sourcemaps.init());
     }
 
-    src.pipe(uglify({
-        preserveComments: true,
-        mangle: true
-    })
-        .on('error', function (e) { console.log('uglify', e); }))
-    ;
+    if (!dev) {
+        src.pipe(uglify({
+            preserveComments: true,
+            mangle: true
+        }).on('error', function (e) {
+            console.log('uglify', e);
+        }));
+    }
 
     if (dev) {
         src.pipe(sourcemaps.write());
@@ -65,8 +65,52 @@ gulp.task('bower', function() {
         .pipe(concat('app.js'))
         .pipe(gulp.dest(paths.dest))
     ;
+});
+
+gulp.task('font', function() {
+    return gulp.src([
+        paths.src + '/**/*.eot',
+        paths.src + '/**/*.svg',
+        paths.src + '/**/*.ttf',
+        paths.src + '/**/*.woff',
+        paths.src + '/**/*.woff2'
+    ])
+        .pipe(flatten())
+        .pipe(gulp.dest(paths.dest))
+    ;
+});
+
+gulp.task('bower', function() {
+    var files = bowerFiles({filter: ['**/*.js'], debug: false});
+
+    var src = gulp.src(files);
+    if (dev) {
+        src.pipe(sourcemaps.init());
+    }
+
+    if (! dev) {
+        src.pipe(uglify({
+            preserveComments: true,
+            mangle: true
+        }).on('error', function (e) {
+            console.log('uglify', e);
+        }));
+    }
+
+    if (dev) {
+        src.pipe(sourcemaps.write());
+    }
+
+    return src
+        .pipe(concat('vendor.js'))
+        .pipe(gulp.dest(paths.dest))
+    ;
 
 });
 
-gulp.task('default', ['less', 'bower']);
-gulp.task('dev', ['setdev']);
+gulp.task('default', ['less', 'bower', 'js', 'font']);
+
+gulp.task('dev', ['setdev'], function() {
+    gulp.watch(paths.app + '/less/**/*.less', ['less']);
+    gulp.watch(paths.app + '/js/**/*.js', ['js']);
+});

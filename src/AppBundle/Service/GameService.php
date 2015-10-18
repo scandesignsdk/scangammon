@@ -106,8 +106,7 @@ class GameService
      * @param $player1
      * @param $player2
      * @param int $limit
-     * @return mixed
-     * @throws \Doctrine\ODM\MongoDB\MongoDBException
+     * @return array
      * @throws \InvalidArgumentException
      */
     public function listGamesByPlayers($player1, $player2, $limit = 10)
@@ -122,28 +121,14 @@ class GameService
             throw new \InvalidArgumentException('Player 2 not found');
         }
 
-        $data = [];
-        $data = array_merge($data, $this->addResults($p1, $p2, $limit));
-        $data = array_merge($data, $this->addResults($p2, $p1, $limit));
-        return $data;
-    }
-
-    /**
-     * @param Player $p1
-     * @param Player $p2
-     * @param $limit
-     * @return array
-     * @throws \Doctrine\ODM\MongoDB\MongoDBException
-     */
-    private function addResults(Player $p1, Player $p2, $limit)
-    {
         $builder = $this->gameRepository->findByPlayers($p1, $p2);
-        $builder->limit($limit);
-        $results = $builder->getQuery()->execute();
+        $builder->setMaxResults($limit);
+        $results = $builder->getQuery()->getResult();
         $data = [];
         foreach($results as $result) {
             $data[] = $result;
         }
+
         return $data;
     }
 

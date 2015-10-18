@@ -1,12 +1,15 @@
 <div class="stats">
 
     <div class="row">
-        <div class="md6">
+        <div class="md8">
             {{ include(':index/_partial:createplayer.html.twig') }}
             {{ include(':index/_partial:latest.html.twig') }}
         </div>
 
-        {{ include(':index/_partial:statsdetail.html.twig') }}
+        <div class="md4" ng-controller="StatsCtrl" data-ng-init="init()">
+            {{ include(':index/_partial:topplayerlist.html.twig') }}
+            {{ include(':index/_partial:statsdetail.html.twig') }}
+        </div>
 
     </div>
 

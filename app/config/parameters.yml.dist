@@ -5,11 +5,13 @@ parameters:
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
 
-    mongo_server:      mongodb://localhost:27017
-    mongo_dbname:      test_database
-
     database_host:     127.0.0.1
     database_port:     ~
     database_name:     symfony
     database_user:     root
     database_password: ~
+
+    pusher_app: 1234
+    pusher_key: 1234
+    pusher_secret: 1234
+    pusher_debug: false

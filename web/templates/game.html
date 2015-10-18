@@ -1,0 +1,14 @@
+<div class="row" data-game-id="{{ game.id }}">
+    <div class="md4">
+        <span ng-if="game.winner == 1" player-html name="{{ game.player1.name }}" elo="{{ game.player1.elo }}" bold="1"></span>
+        <span ng-if="game.winner != 1" player-html name="{{ game.player1.name }}" elo="{{ game.player1.elo }}" bold="0"></span>
+    </div>
+    <div class="md4">
+        <span ng-if="game.winner == 2" player-html name="{{ game.player2.name }}" elo="{{ game.player2.elo }}" bold="1"></span>
+        <span ng-if="game.winner != 2" player-html name="{{ game.player2.name }}" elo="{{ game.player2.elo }}" bold="0"></span>
+    </div>
+    <div class="md4">
+        <span am-time-ago="game.date" title="{{ game.date }}"></span>
+        <span class="pull-right"><a href="#" ng-click="deleteGame(game.id)">&times;</a></span>
+    </div>
+</div>

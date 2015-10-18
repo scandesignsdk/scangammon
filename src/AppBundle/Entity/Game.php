@@ -95,7 +95,7 @@ class Game
      *
      * @ORM\Column(name="date", type="datetime")
      *
-     * @JMS\Type("DateTime<'U'>")
+     * @JMS\Type("DateTime")
      */
     protected $date;
 

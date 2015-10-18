@@ -95,7 +95,6 @@ class GameController extends BaseController
 
     /**
      * @FOS\Delete()
-     * @FOS\RequestParam(name="id", description="Game ID")
      * @ApiDoc(
      *  section="game",
      *  description="Delete a game",
@@ -105,13 +104,13 @@ class GameController extends BaseController
      *  },
      * )
      *
-     * @param ParamFetcher $params
+     * @param int $id Game ID
      * @return JsonResponse
      */
-    public function deleteAction(ParamFetcher $params)
+    public function deleteAction($id)
     {
         try {
-            $game = $this->get('game.service')->deleteGame($params->get('id'));
+            $game = $this->get('game.service')->deleteGame($id);
             $this->get('event_dispatcher')->dispatch(Events::GAME_DELETED, new DeleteEvent($game));
             return new JsonResponse('Game deleted');
         } catch (\Exception $e) {

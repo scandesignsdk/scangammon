@@ -32,7 +32,7 @@ class PlayerController extends BaseController
      */
     public function getAction()
     {
-        $players = $this->getPlayerRepo()->findAll();
+        $players = $this->getPlayerRepo()->findBy([], ['name' => 'ASC']);
         return new JsonResponse($this->get('serializer')->serialize($players, 'json'));
     }
 

@@ -46,8 +46,7 @@ fos_rest:
         include_format: false
 
 lopi_pusher:
-    app_id: 148502
-    key: 4feeb2b96bccf23c91d8
-    secret: 19930f14307bfaf345ac
-
-    debug: true # true if you want use the debug of all requests
+    app_id: %pusher_app%
+    key: %pusher_key%
+    secret: %pusher_secret%
+    debug: %pusher_debug%

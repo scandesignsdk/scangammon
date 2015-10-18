@@ -1,7 +1,7 @@
 <form class="well well-sm" ng-controller="CreatePlayerCtrl">
     <div class="form-group">
         <label for="create_player"></label>
-        <input type="text" class="form-control" id="create_player" placeholder="Create player">
+        <input type="text" class="form-control" id="create_player" placeholder="Create player" ng-model="player">
     </div>
-    <button type="submit" class="btn btn-primary">Create</button>
+    <button type="submit" class="btn btn-primary" ng-click="create()">Create</button>
 </form>
