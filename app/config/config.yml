@@ -36,6 +36,8 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    globals:
+        pusher_appkey:  %pusher_app%
 
 nelmio_api_doc: ~
 

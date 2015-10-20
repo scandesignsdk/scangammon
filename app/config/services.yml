@@ -4,12 +4,9 @@ imports:
   - { resource: eventlistener.yml }
 
 services:
-    elo.service:
-        class: AppBundle\Service\EloService
-
     game.service:
         class: AppBundle\Service\GameService
-        arguments: [@elo.service, @repo.game, @repo.player]
+        arguments: [@repo.game, @repo.player]
 
     twig.angular:
         class: ViewBundle\Twig\AngularTwig

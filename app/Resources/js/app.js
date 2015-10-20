@@ -6,7 +6,7 @@ function doNotify(notify, type, message) {
     notify({
         message: message,
         position: 'left',
-        classes: (type == 'success' ? 'cg-success' : 'cg-error')
+        classes: type == 'success' ? 'cg-success' : 'cg-error'
     });
 }
 
@@ -18,6 +18,12 @@ var playerTemplate = function(name, elo, isBold) {
         name
     );
 };
+
+app.filter('cutheader', function() {
+    return function(value) {
+        return value.replace('[PLAYER]', '');
+    }
+})
 
 app.directive('playerHtml', function() {
     return {
@@ -31,7 +37,7 @@ app.directive('playerHtml', function() {
 app.directive('gameHtml', function() {
     return {
         restrict: 'A',
-        templateUrl: 'templates/game.html'
+        templateUrl: '../templates/game.html'
     }
 });
 
@@ -43,6 +49,8 @@ app.controller('CreateGameCtrl', ['$scope', '$http', 'notify', function($scope, 
     $scope.player2 = undefined;
     $scope.games = [];
     $scope.showWinner = false;
+    $scope.player1_chance = undefined;
+    $scope.player2_chance = undefined;
 
     $scope.deleteGame = function(id) {
         $http.delete('/api/game/' + id).then(function successCallback() {
@@ -58,22 +66,24 @@ app.controller('CreateGameCtrl', ['$scope', '$http', 'notify', function($scope, 
                 p1: this.player1,
                 p2: this.player2,
                 winner: winner
-            }).then(function successCallback(resp) {
+            }).then(function successCallback() {
                 doNotify(notify, 'success', 'Game created');
                 $scope.games = [];
                 $scope.player1 = undefined;
                 $scope.player2 = undefined;
                 $scope.showWinner = false;
-                //select1.val("").trigger("change");
-                //select2.val("").trigger("change");
+                select1.val("").trigger("change");
+                if(!$scope.$$phase) {
+                    select2.val("").trigger("change");
+                }
             });
         }
     };
 
     $scope.update = function() {
-        this.showWinner = false;
-        if (this.player1 && this.player2) {
-            this.showWinner = true;
+        $scope.showWinner = false;
+        if ($scope.player1 && $scope.player2) {
+            $scope.showWinner = true;
             $http.get('/api/game/players', {
                 params: {
                     p1: this.player1,
@@ -81,12 +91,14 @@ app.controller('CreateGameCtrl', ['$scope', '$http', 'notify', function($scope, 
                 },
                 responseType: 'json'
             }).then(function successCallback(resp) {
-                $scope.games = resp.data;
+                $scope.player1_chance = resp.data['player1'];
+                $scope.player2_chance = resp.data['player2'];
+                $scope.games = resp.data['games'];
             })
         }
     };
 
-    channel.bind('player.create', function(data) {
+    channel.bind('player.create', function() {
         $scope.init();
     });
 
@@ -107,7 +119,7 @@ app.controller('CreatePlayerCtrl', ['$scope', '$http', 'notify', function($scope
         if (this.player) {
             $http.post('/api/player/add', {
                 name: this.player
-            }).then(function successCallback(resp) {
+            }).then(function successCallback() {
                 doNotify(notify, 'success', 'Player created');
             }, function errorCallback(resp) {
                 doNotify(notify, 'error', 'Player not created - ' + resp.data);
@@ -121,11 +133,11 @@ app.controller('LatestCtrl', ['$scope', '$http', 'notify', function($scope, $htt
 
     $scope.games = [];
 
-    channel.bind('game.create', function(data) {
+    channel.bind('game.create', function() {
         $scope.init();
     });
 
-    channel.bind('game.deleted', function(data) {
+    channel.bind('game.deleted', function() {
         $scope.init();
     });
 
@@ -152,7 +164,7 @@ app.controller('StatsCtrl', ['$scope', '$http', function($scope, $http) {
     $scope.stats = [];
     $scope.players = [];
 
-    channel.bind('stats.updated', function(data) {
+    channel.bind('stats.updated', function() {
         $scope.init();
     });
 

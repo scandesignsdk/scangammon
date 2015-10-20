@@ -4,23 +4,27 @@
         <div class="md6">
             <div class="form-group">
                 <label for="player1"></label>
-                <select class="form-control" id="player1" data-placeholder="Select a player" ng-model="player1" ng-change="update()">
+                <select class="form-control playerselect" id="player1" data-placeholder="Select a player" ng-model="player1" ng-change="update()">
                     <option></option>
                     <option ng-repeat="player in players track by $index" value="{{ ng('player.id') }}">{{ ng('player.name') }} - {{ ng('player.elo') }}</option>
                 </select>
             </div>
             <button ng-show="showWinner" ng-click="addGame(1)" class="btn btn-block btn-success">Winner</button>
+
+            <p class="winchance" ng-show="showWinner">{{ ng('player1_chance') }}% <small class="text-muted">win chance</small></p>
         </div>
 
         <div class="md6">
             <div class="form-group">
                 <label for="player2"></label>
-                <select class="form-control" id="player2" data-placeholder="Select a player" ng-model="player2" ng-change="update()">
+                <select class="form-control playerselect" id="player2" data-placeholder="Select a player" ng-model="player2" ng-change="update()">
                     <option></option>
                     <option ng-repeat="player in players track by $index" value="{{ ng('player.id') }}">{{ ng('player.name') }} - {{ ng('player.elo') }}</option>
                 </select>
             </div>
             <button ng-show="showWinner" ng-click="addGame(2)" class="btn btn-block btn-success">Winner</button>
+
+            <p class="winchance" ng-show="showWinner">{{ ng('player2_chance') }}% <small class="text-muted">win chance</small></p>
         </div>
     </form>
 

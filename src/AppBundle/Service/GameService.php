@@ -6,7 +6,7 @@ use AppBundle\Entity\GameRepository;
 use AppBundle\Entity\Player;
 use AppBundle\Entity\PlayerRepository;
 use FOS\RestBundle\Request\ParamFetcher;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Jleagle\Elo\Elo;
 
 class GameService
 {
@@ -21,16 +21,10 @@ class GameService
      */
     private $playerRepository;
 
-    /**
-     * @var EloService
-     */
-    private $elo;
-
-    public function __construct(EloService $elo, GameRepository $gameRepository, PlayerRepository $playerRepository)
+    public function __construct(GameRepository $gameRepository, PlayerRepository $playerRepository)
     {
         $this->gameRepository = $gameRepository;
         $this->playerRepository = $playerRepository;
-        $this->elo = $elo;
     }
 
     /**
@@ -55,13 +49,14 @@ class GameService
                 throw new \InvalidArgumentException('Winner not correct format');
             }
 
-            $elo = $this->elo->calculate(
+            $elo = new Elo(
                 $p1->getElo(),
                 $p2->getElo(),
-                (Game::P1WINNER === (int)$params->get('winner') ? 1 : 0),
-                (Game::P2WINNER === (int)$params->get('winner') ? 1 : 0)
+                (Game::P1WINNER === (int)$params->get('winner') ? Elo::WIN : Elo::LOST),
+                (Game::P2WINNER === (int)$params->get('winner') ? Elo::WIN : Elo::LOST)
             );
 
+            $ratings = $elo->getRatings();
             $gameClass = $this->gameRepository->getClassName();
             /** @var Game $game */
             $game = new $gameClass;
@@ -69,13 +64,13 @@ class GameService
                 ->setPlayer1($p1)
                 ->setPlayer2($p2)
                 ->setWinner($params->get('winner'))
-                ->setPlayer1Elochange($p1->getElo(), $elo[1])
-                ->setPlayer2Elochange($p2->getElo(), $elo[2]);
+                ->setPlayer1Elochange($p1->getElo(), $ratings['a'])
+                ->setPlayer2Elochange($p2->getElo(), $ratings['b']);
 
             $this->save($game, false);
 
-            $p1->setElo($elo[1]);
-            $p2->setElo($elo[2]);
+            $p1->setElo($ratings['a']);
+            $p2->setElo($ratings['b']);
 
             $this->save($p1, false);
             $this->save($p2, true);
@@ -121,12 +116,24 @@ class GameService
             throw new \InvalidArgumentException('Player 2 not found');
         }
 
+        $elo = new Elo(
+            $p1->getElo(),
+            $p2->getElo(),
+            1,
+            0
+        );
+        $expected = $elo->getExpected();
+
+        $data = [];
+        $data['player1'] = number_format($expected['a'] * 100, 1, '.', '');
+        $data['player2'] = number_format($expected['b'] * 100, 1, '.', '');
+
         $builder = $this->gameRepository->findByPlayers($p1, $p2);
         $builder->setMaxResults($limit);
         $results = $builder->getQuery()->getResult();
-        $data = [];
+
         foreach($results as $result) {
-            $data[] = $result;
+            $data['games'][] = $result;
         }
 
         return $data;

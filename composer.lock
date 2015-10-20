@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2ec09f6b377086d4f610b111c5b9ca48",
-    "content-hash": "b9b98f59167b828d35c9a28f752e3351",
+    "hash": "f30e2d246b1f6eb7a2580668a246f3bc",
+    "content-hash": "de8ecf2bc4f1c50ba1a49440a9e54028",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1153,6 +1153,50 @@
                 "sql"
             ],
             "time": "2014-01-12 16:20:24"
+        },
+        {
+            "name": "jleagle/elo-score-calculator",
+            "version": "0.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Jleagle/elo-score-calculator.git",
+                "reference": "90763fde9792821e6df34431d71ade4e757f6206"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Jleagle/elo-score-calculator/zipball/90763fde9792821e6df34431d71ade4e757f6206",
+                "reference": "90763fde9792821e6df34431d71ade4e757f6206",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Jleagle\\Elo\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "James Eagle",
+                    "email": "jimeagle@gmail.com",
+                    "homepage": "http://jimeagle.com"
+                }
+            ],
+            "description": "Calculate expected score and new ELO score ",
+            "keywords": [
+                "Rating",
+                "elo",
+                "points",
+                "score",
+                "system"
+            ],
+            "time": "2015-09-03 21:57:25"
         },
         {
             "name": "jms/metadata",
