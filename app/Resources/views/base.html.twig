@@ -15,7 +15,7 @@
         {% block javascripts %}
             <script src="https://js.pusher.com/3.0/pusher.min.js"></script>
             <script>
-                var pusher = new Pusher('{{ pusher_appkey }}');
+                var pusher = new Pusher('{{ pusher_key }}');
                 var channel = pusher.subscribe('scangammon');
             </script>
             <script src="https://cdn.rawgit.com/kvz/phpjs/master/functions/strings/sprintf.js"></script>
