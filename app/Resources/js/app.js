@@ -61,7 +61,7 @@ app.controller('CreateGameCtrl', ['$scope', '$http', 'notify', function($scope, 
     };
 
     $scope.addGame = function(winner) {
-        if (this.player1 && this.player2) {
+        if (this.player1 && this.player2 && this.player1 != this.player2) {
             $http.post('/api/game/add', {
                 p1: this.player1,
                 p2: this.player2,
@@ -82,7 +82,7 @@ app.controller('CreateGameCtrl', ['$scope', '$http', 'notify', function($scope, 
 
     $scope.update = function() {
         $scope.showWinner = false;
-        if ($scope.player1 && $scope.player2) {
+        if ($scope.player1 && $scope.player2 && this.player1 != this.player2) {
             $scope.showWinner = true;
             $http.get('/api/game/players', {
                 params: {
