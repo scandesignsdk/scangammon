@@ -1,6 +1,6 @@
 var Console = console;
 
-var app = angular.module('myApp', ['angularMoment', 'cgNotify']);
+var app = angular.module('myApp', ['angularMoment', 'cgNotify', 'ng-sweet-alert']);
 
 function doNotify(notify, type, message) {
     notify({
@@ -23,7 +23,7 @@ app.filter('cutheader', function() {
     return function(value) {
         return value.replace('[PLAYER]', '');
     }
-})
+});
 
 app.directive('playerHtml', function() {
     return {
@@ -33,20 +33,6 @@ app.directive('playerHtml', function() {
         }
     }
 });
-
-app.directive('ngReallyClick', [function() {
-    return {
-        restrict: 'A',
-        link: function(scope, element, attrs) {
-            element.bind('click', function() {
-                var message = attrs.ngReallyMessage;
-                if (message && confirm(message)) {
-                    scope.$apply(attrs.ngReallyClick);
-                }
-            });
-        }
-    }
-}]);
 
 app.directive('gameHtml', function() {
     return {
@@ -60,7 +46,7 @@ app.directive('games', function() {
         restrict: 'A',
         templateUrl: '../templates/games.html'
     }
-})
+});
 
 app.controller('CreateGameCtrl', ['$scope', '$http', 'notify', function($scope, $http, notify) {
 
@@ -73,6 +59,10 @@ app.controller('CreateGameCtrl', ['$scope', '$http', 'notify', function($scope, 
     $scope.player1_chance = undefined;
     $scope.player2_chance = undefined;
 
+    channel.bind('player.create', function(data) {
+        $scope.players.push(JSON.parse(data));
+    });
+
     $scope.deleteGame = function(id) {
         $http.delete('/api/game/' + id).then(function successCallback() {
             doNotify(notify, 'success', 'Game deleted');
@@ -81,15 +71,6 @@ app.controller('CreateGameCtrl', ['$scope', '$http', 'notify', function($scope, 
         });
     };
 
-    $scope.playerName = function(id) {
-        angular.forEach($scope.players, function(value) {
-            if (value.id == id) {
-                return value.name;
-            }
-        });
-        return 'empty';
-    }
-
     $scope.addGame = function(winner) {
         if (this.player1 && this.player2 && this.player1 != this.player2) {
             $http.post('/api/game/add', {
@@ -97,12 +78,15 @@ app.controller('CreateGameCtrl', ['$scope', '$http', 'notify', function($scope, 
                 p2: this.player2,
                 winner: winner
             }).then(function successCallback() {
-                doNotify(notify, 'success', 'Game created');
                 $scope.games = [];
                 $scope.player1 = undefined;
                 $scope.player2 = undefined;
                 $scope.showWinner = false;
-                select1.val("").trigger("change");
+
+                if(!$scope.$$phase) {
+                    select1.val("").trigger("change");
+                }
+
                 if(!$scope.$$phase) {
                     select2.val("").trigger("change");
                 }
@@ -128,10 +112,6 @@ app.controller('CreateGameCtrl', ['$scope', '$http', 'notify', function($scope, 
         }
     };
 
-    channel.bind('player.create', function() {
-        $scope.init();
-    });
-
     $scope.init = function() {
         $http.get('/api/player/get', {
             responseType: 'json'
@@ -145,14 +125,18 @@ app.controller('CreateGameCtrl', ['$scope', '$http', 'notify', function($scope, 
 app.controller('CreatePlayerCtrl', ['$scope', '$http', 'notify', function($scope, $http, notify) {
     $scope.player = undefined;
 
+    channel.bind('player.create', function(data) {
+        var player = JSON.parse(data);
+        doNotify(notify, 'success', player.name + ' has entered the arena');
+    });
+
     $scope.create = function() {
         if (this.player) {
             $http.post('/api/player/add', {
                 name: this.player
             }).then(function successCallback() {
-                doNotify(notify, 'success', 'Player created');
             }, function errorCallback(resp) {
-                doNotify(notify, 'error', 'Player not created - ' + resp.data);
+                doNotify(notify, 'error', 'A new player could not enter the arena - ' + resp.data);
             })
         }
     };
@@ -163,8 +147,19 @@ app.controller('LatestCtrl', ['$scope', '$http', 'notify', function($scope, $htt
 
     $scope.games = [];
 
-    channel.bind('game.create', function() {
-        $scope.init();
+    channel.bind('game.create', function(data) {
+        var game = JSON.parse(data);
+        $scope.games.unshift(game);
+        var winnerplayer = '';
+        var loserplayer = '';
+        if (game.winner == 1) {
+            winnerplayer = game.player1.name;
+            loserplayer = game.player1.name;
+        } else {
+            winnerplayer = game.player2.name;
+            loserplayer = game.player1.name;
+        }
+        doNotify(notify, 'success', winnerplayer + ' has just beaten ' + loserplayer);
     });
 
     channel.bind('game.deleted', function() {
@@ -173,9 +168,9 @@ app.controller('LatestCtrl', ['$scope', '$http', 'notify', function($scope, $htt
 
     $scope.deleteGame = function(id) {
         $http.delete('/api/game/' + id).then(function successCallback() {
-            doNotify(notify, 'success', 'Game deleted');
+            doNotify(notify, 'success', 'The game is gone forever');
         }, function errorCallback(resp) {
-            doNotify(notify, 'error', 'Game not deleted - ' + resp.data);
+            doNotify(notify, 'error', 'Oh ohh... the game could be deleted - ' + resp.data);
         });
     };
 
@@ -194,8 +189,14 @@ app.controller('StatsCtrl', ['$scope', '$http', function($scope, $http) {
     $scope.stats = [];
     $scope.players = [];
 
-    channel.bind('stats.updated', function() {
-        $scope.init();
+    channel.bind('stats.updated', function(data) {
+        var stats = JSON.parse(data);
+        $scope.stats = stats['gamestats'];
+        $.extend($scope.stats, stats['playerstats']);
+    });
+
+    channel.bind('player.create', function(data) {
+        $scope.players.push(JSON.parse(data));
     });
 
     $scope.init = function() {

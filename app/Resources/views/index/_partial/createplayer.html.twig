@@ -4,7 +4,18 @@
             <label for="create_player" class="sr-only">Player name</label>
             <input type="text" class="form-control" id="create_player" placeholder="Create player" ng-model="player">
             <span class="input-group-btn">
-                <button type="submit" class="btn btn-primary" ng-click="create()">Create</button>
+                <button type="submit" class="btn btn-primary" sweetalert sweet-options="{
+                    title:'Are you sure?',
+                    text:'You are now trying to create a new player',
+                    type:'warning',
+                    confirmButtonText:'Yes I am',
+                    showCancelButton:true,
+                    cancelButtonText:'Nope'
+                }" sweet-confirm-option="{
+                    title:'Created',
+                    text:'A new player has entered the arena',
+                    type:'success',
+                }" sweet-on-confirm="create()">Create</button>
             </span>
         </div>
     </div>

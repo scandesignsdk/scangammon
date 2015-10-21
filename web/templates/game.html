@@ -9,6 +9,17 @@
     </div>
     <div class="md4">
         <span am-time-ago="game.date" title="{{ game.date }}"></span>
-        <span class="pull-right"><a href="#" ng-really-click="deleteGame(game.id)" ng-really-message="Are you sure you want to delete this game?">&times;</a></span>
+        <a href="#" class="pull-right" sweetalert sweet-options="{
+            title:'Are you sure?',
+            text:'The game will not be able to be recovered at any time',
+            type:'warning',
+            confirmButtonText:'Yes I am',
+            showCancelButton:true,
+            cancelButtonText:'Nope'
+        }" sweet-confirm-option="{
+            title:'Deleted',
+            text:'The game is gone... forever',
+            type:'success',
+        }" sweet-on-confirm="deleteGame(game.id)">&times;</a>
     </div>
 </div>
