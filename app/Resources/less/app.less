@@ -1,5 +1,6 @@
 @import "../../../web/assets/bootstrap/less/bootstrap";
 @import "../../../web/assets/font-awesome/less/font-awesome";
+@import "../../../web/assets/select2-bootstrap-theme/src/select2-bootstrap";
 
 @icon-font-path: "./";
 @fa-font-path: ".";
@@ -7,9 +8,6 @@
 h1 {
   font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
   text-align: center;
-  border-bottom: 1px solid @gray-lighter;
-  margin-bottom: 20px;
-  padding-bottom: 5px;
 }
 
 .winchance {
@@ -20,13 +18,6 @@ h1 {
 
 .playerselect {
   width: 100%;
-}
-
-ul.list-group {
-  margin-top:20px;
-  > li {
-    .list-group-item;
-  }
 }
 
 .gold {
@@ -75,6 +66,10 @@ ul.list-group {
 
 .game {
   .make-md-column(6);
+}
+
+.well-vsm {
+  padding: 0 0 4px 0;
 }
 
 .stats {
@@ -187,4 +182,16 @@ ul.list-group {
   background-color: @alert-danger-bg !important;
   color: @alert-danger-text !important;
   border: 1px solid @alert-danger-border !important;
+}
+
+.select2-selection {
+  height: @input-height-base !important;
+}
+
+.select2-selection__rendered {
+  line-height: @input-height-base !important;
+}
+
+.select2-selection__arrow {
+  height: @input-height-base !important;
 }

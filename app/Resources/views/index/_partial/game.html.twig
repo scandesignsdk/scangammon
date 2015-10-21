@@ -1,6 +1,5 @@
 <div class="game" ng-controller="CreateGameCtrl" data-ng-init="init()">
-
-    <form class="row">
+    <form class="row well well-vsm">
         <div class="md6">
             <div class="form-group">
                 <label for="player1"></label>
@@ -28,10 +27,6 @@
         </div>
     </form>
 
-    <ul class="list-group" ng-show="games.length > 0">
-        <li ng-repeat="game in games">
-            <span game-html game="{{ ng('game') }}"></span>
-        </li>
-    </ul>
+    <div games ng-show="games.length > 0 && showWinner"></div>
 
 </div>

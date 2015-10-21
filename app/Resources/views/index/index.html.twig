@@ -3,7 +3,9 @@
 {% block body %}
 <div class="container-fluid" ng-app="myApp">
 
-    <h1>Scan Gaming</h1>
+    <div class="page-header">
+        <h1>Scan Gaming <small>Play some!</small></h1>
+    </div>
 
     {{ include(':index/_partial:game.html.twig') }}
     {{ include(':index/_partial:stats.html.twig') }}

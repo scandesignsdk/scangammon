@@ -34,12 +34,33 @@ app.directive('playerHtml', function() {
     }
 });
 
+app.directive('ngReallyClick', [function() {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            element.bind('click', function() {
+                var message = attrs.ngReallyMessage;
+                if (message && confirm(message)) {
+                    scope.$apply(attrs.ngReallyClick);
+                }
+            });
+        }
+    }
+}]);
+
 app.directive('gameHtml', function() {
     return {
         restrict: 'A',
         templateUrl: '../templates/game.html'
     }
 });
+
+app.directive('games', function() {
+    return {
+        restrict: 'A',
+        templateUrl: '../templates/games.html'
+    }
+})
 
 app.controller('CreateGameCtrl', ['$scope', '$http', 'notify', function($scope, $http, notify) {
 
@@ -59,6 +80,15 @@ app.controller('CreateGameCtrl', ['$scope', '$http', 'notify', function($scope, 
             doNotify(notify, 'error', 'Game not deleted - ' + resp.data);
         });
     };
+
+    $scope.playerName = function(id) {
+        angular.forEach($scope.players, function(value) {
+            if (value.id == id) {
+                return value.name;
+            }
+        });
+        return 'empty';
+    }
 
     $scope.addGame = function(winner) {
         if (this.player1 && this.player2 && this.player1 != this.player2) {
