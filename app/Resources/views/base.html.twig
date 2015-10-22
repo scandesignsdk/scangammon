@@ -17,8 +17,9 @@
             <script>
                 var pusher = new Pusher('{{ pusher_key }}');
                 var channel = pusher.subscribe('scangammon');
+                var select1;
+                var select2;
             </script>
-            <script src="https://cdn.rawgit.com/kvz/phpjs/master/functions/strings/sprintf.js"></script>
             <script src="{{ asset('vendor/vendor.js') }}"></script>
             <script src="{{ asset('vendor/app.js') }}"></script>
             {% block scripts %}{% endblock %}

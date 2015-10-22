@@ -9,8 +9,7 @@
                 </select>
             </div>
             <button ng-show="showWinner" ng-click="addGame(1)" class="btn btn-block btn-success">Winner</button>
-
-            <p class="winchance" ng-show="showWinner">{{ ng('player1_chance') }}% <small class="text-muted">win chance</small></p>
+            <div ng-show="showWinner" class="winchance" player-stats player="stats.player1" winchance="stats.player1_win_chance" win="stats.player1_elo_win" lose="stats.player1_elo_lose"></div>
         </div>
 
         <div class="md6">
@@ -22,11 +21,10 @@
                 </select>
             </div>
             <button ng-show="showWinner" ng-click="addGame(2)" class="btn btn-block btn-success">Winner</button>
-
-            <p class="winchance" ng-show="showWinner">{{ ng('player2_chance') }}% <small class="text-muted">win chance</small></p>
+            <div ng-show="showWinner" class="winchance" player-stats player="stats.player2" winchance="stats.player2_win_chance" win="stats.player2_elo_win" lose="stats.player2_elo_lose"></div>
         </div>
     </form>
 
-    <div games ng-show="games.length > 0 && showWinner"></div>
+    <div games gameslist="stats.games" ng-show="stats.games.length > 0 && showWinner"></div>
 
 </div>

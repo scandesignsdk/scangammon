@@ -19,6 +19,7 @@ use JMS\Serializer\Annotation as JMS;
 class Player
 {
     /**
+     * Player ID
      * @var string
      *
      * @ODM\Id(strategy="AUTO")
@@ -32,6 +33,7 @@ class Player
     protected $id;
 
     /**
+     * Player name
      * @var string
      *
      * @ODM\String(name="name")
@@ -43,6 +45,7 @@ class Player
     protected $name;
 
     /**
+     * Player ELO
      * @var int
      *
      * @ODM\Integer(name="elo")

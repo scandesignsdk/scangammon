@@ -4,6 +4,7 @@ namespace AppBundle\Service;
 use AppBundle\Entity\Game;
 use AppBundle\Entity\GameRepository;
 use AppBundle\Entity\Player;
+use AppBundle\Entity\PlayerGame;
 use AppBundle\Entity\PlayerRepository;
 use FOS\RestBundle\Request\ParamFetcher;
 use Jleagle\Elo\Elo;
@@ -98,10 +99,11 @@ class GameService
     }
 
     /**
-     * @param $player1
-     * @param $player2
+     * @param int $player1
+     * @param int $player2
      * @param int $limit
-     * @return array
+     *
+     * @return PlayerGame
      * @throws \InvalidArgumentException
      */
     public function listGamesByPlayers($player1, $player2, $limit = 10)
@@ -123,17 +125,31 @@ class GameService
             0
         );
         $expected = $elo->getExpected();
+        $win1 = $elo->getRatings();
+        $elo = new Elo(
+            $p1->getElo(),
+            $p2->getElo(),
+            0,
+            1
+        );
+        $win2 = $elo->getRatings();
 
-        $data = [];
-        $data['player1'] = number_format($expected['a'] * 100, 1, '.', '');
-        $data['player2'] = number_format($expected['b'] * 100, 1, '.', '');
+        $data = new PlayerGame();
+        $data->setPlayer1($p1)
+            ->setPlayer2($p2)
+            ->setPlayer1WinChance(number_format($expected['a'] * 100, 1, '.', ''))
+            ->setPlayer1EloWin($win1['a'])
+            ->setPlayer1EloLose($win2['a'])
+            ->setPlayer2WinChance(number_format($expected['b'] * 100, 1, '.', ''))
+            ->setPlayer2EloWin($win2['b'])
+            ->setPlayer2EloLose($win1['b'])
+        ;
 
         $builder = $this->gameRepository->findByPlayers($p1, $p2);
         $builder->setMaxResults($limit);
         $results = $builder->getQuery()->getResult();
-
         foreach($results as $result) {
-            $data['games'][] = $result;
+            $data->addGame($result);
         }
 
         return $data;

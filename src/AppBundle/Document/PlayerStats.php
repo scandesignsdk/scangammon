@@ -8,6 +8,7 @@ class PlayerStats
 {
 
     /**
+     * Total players
      * @var int
      * @JMS\Type("integer")
      * @JMS\SerializedName("Total players")
@@ -15,13 +16,7 @@ class PlayerStats
     protected $total;
 
     /**
-     * @var int
-     * @JMS\Type("integer")
-     * @JMS\SerializedName("Player with most games #")
-     */
-    protected $mostPlayed;
-
-    /**
+     * Player with most games
      * @var Player
      * @JMS\Type("AppBundle\Entity\Player")
      * @JMS\SerializedName("[PLAYER] Player with most games")
@@ -29,6 +24,7 @@ class PlayerStats
     protected $mostPlayedPlayer;
 
     /**
+     * Highest ranked player
      * @var Player
      * @JMS\Type("AppBundle\Entity\Player")
      * @JMS\SerializedName("[PLAYER] Highest ranked player")
@@ -36,6 +32,7 @@ class PlayerStats
     protected $highestRanked;
 
     /**
+     * Lowest ranked player
      * @var Player
      * @JMS\Type("AppBundle\Entity\Player")
      * @JMS\SerializedName("[PLAYER] Lowest ranked player")
@@ -43,6 +40,7 @@ class PlayerStats
     protected $lowestRanked;
 
     /**
+     * Average elo ranking
      * @var int
      * @JMS\Type("integer")
      * @JMS\SerializedName("Average elo rank")

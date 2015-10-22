@@ -9,7 +9,6 @@ use FOS\RestBundle\Controller\Annotations as FOS;
 use FOS\RestBundle\Request\ParamFetcher;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class PlayerController
@@ -21,7 +20,7 @@ class PlayerController extends BaseController
 {
 
     /**
-     * @FOS\Get("get")
+     * @FOS\Get()
      * @ApiDoc(
      *  section="user",
      *  description="Get players",
@@ -37,7 +36,7 @@ class PlayerController extends BaseController
     }
 
     /**
-     * @FOS\Post("add")
+     * @FOS\Post()
      * @FOS\RequestParam(name="name", description="Player name")
      * @ApiDoc(
      *  section="user",

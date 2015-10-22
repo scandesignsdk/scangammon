@@ -21,6 +21,7 @@ class Game
     const P2WINNER = 2;
 
     /**
+     * Game ID
      * @var string $id
      *
      * @ODM\Id(strategy="AUTO")
@@ -34,6 +35,7 @@ class Game
     protected $id;
 
     /**
+     * Player 1 data
      * @var Player
      *
      * @ODM\ReferenceOne(name="player1", targetDocument="Player")
@@ -45,6 +47,7 @@ class Game
     protected $player1;
 
     /**
+     * Player 2 data
      * @var Player
      *
      * @ODM\ReferenceOne(name="player2", targetDocument="Player")
@@ -56,6 +59,7 @@ class Game
     protected $player2;
 
     /**
+     * Winner, if 1, player 1 is the winner, if 2, player 2 is the winner
      * @var int
      *
      * @ODM\Integer(name="winner")
@@ -67,6 +71,7 @@ class Game
     protected $winner;
 
     /**
+     * The elo change
      * @var int
      *
      * @ODM\Integer(name="player1_elochange"))
@@ -78,6 +83,7 @@ class Game
     protected $player1Elochange;
 
     /**
+     * The elo change
      * @var int
      *
      * @ODM\Integer(name="player2_elochange"))
@@ -89,6 +95,8 @@ class Game
     protected $player2Elochange;
 
     /**
+     * When the game was played
+     *
      * @var \DateTime
      *
      * @ODM\Date(name="date")

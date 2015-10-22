@@ -10,7 +10,7 @@ class StatsController extends BaseController
 {
 
     /**
-     * @FOS\Get("games")
+     * @FOS\Get()
      * @ApiDoc(
      *  section="stats",
      *  description="Get total games played",
@@ -26,7 +26,7 @@ class StatsController extends BaseController
     }
 
     /**
-     * @FOS\Get("players")
+     * @FOS\Get()
      * @ApiDoc(
      *  section="stats",
      *  description="Get total players",
@@ -42,7 +42,7 @@ class StatsController extends BaseController
     }
 
     /**
-     * @FOS\Get("total")
+     * @FOS\Get()
      * @ApiDoc(
      *  section="stats",
      *  description="Get all stats",

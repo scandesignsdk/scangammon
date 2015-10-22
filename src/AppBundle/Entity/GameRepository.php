@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\ResultSetMapping;
 
 /**
  * GameRepository
@@ -32,6 +33,37 @@ class GameRepository extends EntityRepository
             )
         );
         return $builder;
+    }
+
+    public function findMostGamesByPlayer()
+    {
+        $results = [];
+        $this->findByPlayerGames(1, $results);
+        $this->findByPlayerGames(2, $results);
+        arsort($results);
+        return key($results);
+    }
+
+    private function findByPlayerGames($player = 1, &$output = array())
+    {
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('COUNT(id)', 'numgames', 'integer');
+        $rsm->addScalarResult('id', 'id', 'integer');
+        $query = sprintf(
+            'SELECT COUNT(id), player%d_id as id FROM game GROUP BY player%d_id ORDER BY COUNT(id) DESC',
+            $player,
+            $player
+        );
+
+        $q = $this->_em->createNativeQuery($query, $rsm);
+        $results = $q->getResult();
+        foreach($results as $res) {
+            if (array_key_exists($res['id'], $output)) {
+                $output[$res['id']] += $res['numgames'];
+            } else {
+                $output[$res['id']] = $res['numgames'];
+            }
+        }
     }
 
     public function getManager()

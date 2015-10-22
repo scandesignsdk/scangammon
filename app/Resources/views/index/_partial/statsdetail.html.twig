@@ -1,14 +1,15 @@
-<div class="panel panel-default">
+<div class="panel panel-default hidden-xs">
     <div class="panel-heading">Stats</div>
     <ul class="list-group">
         <li class="list-group-item" ng-repeat="(header, stat) in stats">
-            <h4>{{ ng('header | cutheader') }}</h4>
-            <p ng-if="header.indexOf('[PLAYER]') > -1">
+            <span ng-if="header.indexOf('[PLAYER]') > -1">
+                {{ ng('header | cutheader') }}:
+                <br />
                 <span player-html name="{{ ng('stat.name') }}" elo="{{ ng('stat.elo') }}" bold="1"></span>
-            </p>
-            <p ng-if="header.indexOf('[PLAYER]') === -1">
-                <b>{{ ng('stat') }}</b>
-            </p>
+            </span>
+            <span ng-if="header.indexOf('[PLAYER]') === -1">
+                {{ ng('header | cutheader') }}: <b>{{ ng('stat') }}</b>
+            </span>
         </li>
     </ul>
 </div>

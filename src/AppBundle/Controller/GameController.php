@@ -33,8 +33,8 @@ class GameController extends BaseController
 
     /**
      * @FOS\Get("players")
-     * @FOS\QueryParam(name="p1", description="Player 1 ID")
-     * @FOS\QueryParam(name="p2", description="Player 2 ID")
+     * @FOS\QueryParam(name="p1", description="Player 1 ID", requirements="\d+")
+     * @FOS\QueryParam(name="p2", description="Player 2 ID", requirements="\d+")
      * @FOS\QueryParam(name="limit", requirements="\d+", description="Limit to how many games", default="10")
      * @ApiDoc(
      *  section="game",
@@ -45,7 +45,7 @@ class GameController extends BaseController
      *          "Player 2 not found"
      *      }
      *  },
-     *  output="AppBundle\Entity\Game"
+     *  output="AppBundle\Entity\PlayerGame"
      * )
      *
      * @param ParamFetcher $params
@@ -63,8 +63,8 @@ class GameController extends BaseController
 
     /**
      * @FOS\Post()
-     * @FOS\RequestParam(name="p1", description="Player1 id")
-     * @FOS\RequestParam(name="p2", description="Player2 id")
+     * @FOS\RequestParam(name="p1", description="Player1 id", requirements="\d+")
+     * @FOS\RequestParam(name="p2", description="Player2 id", requirements="\d+")
      * @FOS\RequestParam(name="winner", requirements="\d+", description="Winner - 1 for player 1, 2 for player 2")
      * @ApiDoc(
      *  section="game",

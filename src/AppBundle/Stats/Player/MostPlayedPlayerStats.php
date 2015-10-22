@@ -29,6 +29,7 @@ class MostPlayedPlayerStats extends AbstractPlayerStats
 
     public function set(PlayerStats $stats)
     {
-
+        $player_id = $this->gameRepository->findMostGamesByPlayer();
+        $stats->{$this->getSetter()}($this->playerRepository->find($player_id));
     }
 }
