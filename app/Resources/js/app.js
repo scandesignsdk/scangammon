@@ -11,7 +11,7 @@ function doNotify(notify, type, message) {
 }
 
 var playerTemplate = function(name, elo, isBold) {
-    return '<span class="badge">' + elo + '</span> <span class="' + (isBold == 1 ? 'winner' : isBold == 2 ? '' : 'loser') + '">' + name + '</span>';
+    return '<span class="badge">' + elo + '</span> <span class="playername ' + (isBold == 1 ? 'winner' : isBold == 2 ? '' : 'loser') + '">' + name + '</span>';
 };
 
 var playerStatsTemplate = function(winpercentage, winelo, loseelo) {
@@ -75,6 +75,14 @@ app.controller('CreateGameCtrl', ['$scope', '$http', 'notify', function($scope, 
     channel.bind('player.create', function(data) {
         $scope.players.push(JSON.parse(data));
     });
+
+    $scope.playerSelect = function() {
+        var playerlist = [];
+        $scope.players.forEach(function(player) {
+            playerlist.push({id: player.id, text: player.name, elo: player.elo});
+        });
+        return playerlist;
+    }
 
     $scope.deleteGame = function(id) {
         $http.delete('/api/game/' + id).then(function successCallback() {

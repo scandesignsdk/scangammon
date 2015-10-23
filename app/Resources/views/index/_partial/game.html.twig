@@ -1,6 +1,6 @@
 <div class="game" ng-controller="CreateGameCtrl" data-ng-init="init()">
     <form class="row well well-vsm">
-        <div class="md6">
+        <div class="md5">
             <div class="form-group">
                 <label for="player1"></label>
                 <select class="form-control playerselect" id="player1" data-placeholder="Select a player" ng-model="player1" ng-change="update()">
@@ -12,7 +12,9 @@
             <div ng-show="showWinner" class="winchance" player-stats player="stats.player1" winchance="stats.player1_win_chance" win="stats.player1_elo_win" lose="stats.player1_elo_lose"></div>
         </div>
 
-        <div class="md6">
+        <div class="md2 versus">vs</div>
+
+        <div class="md5">
             <div class="form-group">
                 <label for="player2"></label>
                 <select class="form-control playerselect" id="player2" data-placeholder="Select a player" ng-model="player2" ng-change="update()">

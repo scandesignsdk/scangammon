@@ -3,8 +3,7 @@
     <small>win chance</small>
 </h3>
 <h4>
-    <small>
-        If win {{ win }} (+{{ win - player.elo }})<br />
-        If lose {{ lose }} ({{ lose - player.elo }})
+    <small class="playerstats">
+        Elo: If win <b class="winner">{{ win }} (+{{ win - player.elo }})</b> If lose <b class="loser">{{ lose }} ({{ lose - player.elo }})</b>
     </small>
 </h4>
