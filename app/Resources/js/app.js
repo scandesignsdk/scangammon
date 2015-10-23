@@ -166,7 +166,7 @@ app.controller('LatestCtrl', ['$scope', '$http', 'notify', function($scope, $htt
         var loserplayer = '';
         if (game.winner == 1) {
             winnerplayer = game.player1.name;
-            loserplayer = game.player1.name;
+            loserplayer = game.player2.name;
         } else {
             winnerplayer = game.player2.name;
             loserplayer = game.player1.name;
