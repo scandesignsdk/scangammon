@@ -52,3 +52,6 @@ lopi_pusher:
     key: %pusher_key%
     secret: %pusher_secret%
     debug: %pusher_debug%
+
+staffim_rollbar:
+    access_token: %rollbar_accesstoken%

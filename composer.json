@@ -21,7 +21,8 @@
         "doctrine/orm": "^2.4.8",
         "doctrine/doctrine-bundle": "~1.4",
         "laupifrpar/pusher-bundle": "^1.2",
-        "jleagle/elo-score-calculator": "^0.0.2"
+        "jleagle/elo-score-calculator": "^0.0.2",
+        "staffim/rollbar-bundle": "^1.2"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",
