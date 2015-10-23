@@ -8,7 +8,7 @@
         <span ng-if="game.winner != 2" player-html name="{{ game.player2.name }}" elo="{{ game.player2.elo }}" bold="0"></span>
     </div>
     <div class="md4">
-        <span am-time-ago="game.date" title="{{ game.date }}"></span>
+        <span class="timer" am-time-ago="game.date" title="{{ game.date }}"></span>
         <a class="pull-right" href="#" sweetalert sweet-options="{
             title:'Are you sure?',
             text:'The game will not be able to be recovered at any time',

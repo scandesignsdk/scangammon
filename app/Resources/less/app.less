@@ -5,6 +5,10 @@
 @icon-font-path: "./";
 @fa-font-path: ".";
 
+html, body {
+  background: url("../background.jpg") no-repeat 50% 50%;
+}
+
 [ng\:cloak], [ng-cloak], .ng-cloak {
   display: none !important;
 }
@@ -33,9 +37,11 @@ html, body {
 
 .badge {
   font-family: arial, sans-serif;
+  border-radius: 5px;
+  padding: 3px 5px;
 }
 
-.playername {
+.panel-heading {
   font-weight: 700;
 }
 
@@ -43,10 +49,19 @@ html, body {
   font-weight: 100;
 }
 
+.timer {
+  .text-muted;
+  font-size: @font-size-small;
+}
+
 h1 {
   font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 700;
   text-align: center;
+  color: @body-bg;
+  small {
+    color: darken(@body-bg, 15);
+  }
 }
 
 .winchance {
