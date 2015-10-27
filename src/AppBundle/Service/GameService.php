@@ -1,6 +1,7 @@
 <?php
 namespace AppBundle\Service;
 
+use AppBundle\Document\PlayerChance;
 use AppBundle\Entity\Game;
 use AppBundle\Entity\GameRepository;
 use AppBundle\Entity\Player;
@@ -50,6 +51,10 @@ class GameService
                 throw new \InvalidArgumentException('Winner not correct format');
             }
 
+            if (!in_array((int)$params->get('wintype'), [Game::WINTYPE_NORMAL, Game::WINTYPE_GAMMON, Game::WINTYPE_BACKGAMMON], true)) {
+                throw new \InvalidArgumentException('Wintype not correct format');
+            }
+
             $elo = new Elo(
                 $p1->getElo(),
                 $p2->getElo(),
@@ -66,7 +71,9 @@ class GameService
                 ->setPlayer2($p2)
                 ->setWinner($params->get('winner'))
                 ->setPlayer1Elochange($p1->getElo(), $ratings['a'])
-                ->setPlayer2Elochange($p2->getElo(), $ratings['b']);
+                ->setPlayer2Elochange($p2->getElo(), $ratings['b'])
+                ->setWintype($params->get('wintype'))
+            ;
 
             $this->save($game, false);
 
@@ -134,15 +141,23 @@ class GameService
         );
         $win2 = $elo->getRatings();
 
+        $chance1 = new PlayerChance();
+        $chance1->setPlayer($p1)
+            ->setChance($expected['a'])
+            ->setWinNormal($win1['a'])
+            ->setLoseNormal($win2['a'])
+        ;
+
+        $chance2 = new PlayerChance();
+        $chance2->setPlayer($p2)
+            ->setChance($expected['b'])
+            ->setWinNormal($win1['b'])
+            ->setLoseNormal($win2['b'])
+        ;
+
         $data = new PlayerGame();
-        $data->setPlayer1($p1)
-            ->setPlayer2($p2)
-            ->setPlayer1WinChance(number_format($expected['a'] * 100, 1, '.', ''))
-            ->setPlayer1EloWin($win1['a'])
-            ->setPlayer1EloLose($win2['a'])
-            ->setPlayer2WinChance(number_format($expected['b'] * 100, 1, '.', ''))
-            ->setPlayer2EloWin($win2['b'])
-            ->setPlayer2EloLose($win1['b'])
+        $data->setPlayer1($chance1)
+            ->setPlayer2($chance2)
         ;
 
         $builder = $this->gameRepository->findByPlayers($p1, $p2);

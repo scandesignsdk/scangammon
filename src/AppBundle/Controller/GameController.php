@@ -66,6 +66,7 @@ class GameController extends BaseController
      * @FOS\RequestParam(name="p1", description="Player1 id", requirements="\d+")
      * @FOS\RequestParam(name="p2", description="Player2 id", requirements="\d+")
      * @FOS\RequestParam(name="winner", requirements="\d+", description="Winner - 1 for player 1, 2 for player 2")
+     * @FOS\RequestParam(name="wintype", requirements="\d+", description="Wintype 0 = Normal, 1 = Gammon, 2 = Backgammon", default="0")
      * @ApiDoc(
      *  section="game",
      *  description="Add game",
@@ -74,7 +75,8 @@ class GameController extends BaseController
      *      404={
      *          "Player 1 not found",
      *          "Player 2 not found",
-     *              "Winner not correct format"
+     *          "Winner not correct format",
+     *          "Wintype not correct format",
      *      }
      *  }
      * )

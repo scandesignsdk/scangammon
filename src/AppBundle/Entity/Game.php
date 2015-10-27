@@ -19,6 +19,9 @@ class Game
 {
     const P1WINNER = 1;
     const P2WINNER = 2;
+    const WINTYPE_NORMAL = 0;
+    const WINTYPE_GAMMON = 1;
+    const WINTYPE_BACKGAMMON = 2;
 
     /**
      * Game ID
@@ -69,6 +72,18 @@ class Game
      * @JMS\Type("integer")
      */
     protected $winner;
+
+    /**
+     * Win type, 0 = Normal, 1 = Gammon, 2 = Backgammon
+     * @var int
+     *
+     * @ODM\Integer(name="wintype")
+     *
+     * @ORM\Column(name="wintype", type="integer")
+     *
+     * @JMS\Type("integer")
+     */
+    protected $wintype = 0;
 
     /**
      * The elo change
@@ -186,6 +201,27 @@ class Game
     public function getWinner()
     {
         return $this->winner;
+    }
+
+    /**
+     * Gets the Wintype
+     * @return int
+     */
+    public function getWintype()
+    {
+        return $this->wintype;
+    }
+
+    /**
+     * @param int $wintype
+     *
+     * @return Game
+     */
+    public function setWintype($wintype)
+    {
+        $this->wintype = $wintype;
+
+        return $this;
     }
 
     /**
