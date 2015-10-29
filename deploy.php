@@ -29,8 +29,8 @@ task('deploy', [
     'cleanup',
 ])->desc('Deploy your project');
 
-set('repository', 'git@gitlab.com:lsv/backgammon.git');
-server('prod', 'picks.aarhof.eu', 22)
+set('repository', 'git@github.com:scandesignsdk/scangammon.git');
+server('prod', 'scangammon.aarhof.eu', 22)
     ->user('root')
     ->forwardAgent()
     ->stage('production')
