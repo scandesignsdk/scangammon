@@ -106,10 +106,10 @@ class EloCalculator
     private function calculateGammon($startElo, $nextElo, $multiplier)
     {
         if ($nextElo > $startElo) {
-            return $startElo + (($nextElo - $startElo) * $multiplier);
+            return ceil($startElo + (($nextElo - $startElo) * $multiplier));
         }
 
-        return $startElo + (($nextElo - $startElo) * $multiplier);
+        return ceil($startElo + (($nextElo - $startElo) * $multiplier));
     }
 
 }

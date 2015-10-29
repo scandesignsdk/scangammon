@@ -86,26 +86,26 @@ class Game
     protected $wintype = 0;
 
     /**
-     * The elo change
+     * The player 1 elo change
      * @var int
      *
      * @ODM\Integer(name="player1_elochange"))
      *
      * @ORM\Column(name="player1elochange", type="integer")
      *
-     * @JMS\Exclude()
+     * @JMS\Type("integer")
      */
     protected $player1Elochange;
 
     /**
-     * The elo change
+     * The player2 elo change
      * @var int
      *
      * @ODM\Integer(name="player2_elochange"))
      *
      * @ORM\Column(name="player2elochange", type="integer")
      *
-     * @JMS\Exclude()
+     * @JMS\Type("integer")
      */
     protected $player2Elochange;
 

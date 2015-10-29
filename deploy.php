@@ -8,6 +8,11 @@ task('deploy:npm', function() {
     run('cd {{release_path}} && ./node_modules/.bin/bower --allow-root install && ./node_modules/.bin/gulp');
 });
 
+task('deploy:restart', function() {
+    run('/etc/init.d/nginx reload');
+    run('/etc/init.d/php5-fpm reload');
+});
+
 task('deploy', [
     'deploy:prepare',
     'deploy:release',
@@ -20,6 +25,7 @@ task('deploy', [
     'deploy:cache:warmup',
     'deploy:symlink',
     'deploy:npm',
+    'deploy:restart',
     'cleanup',
 ])->desc('Deploy your project');
 

@@ -18,6 +18,8 @@ use JMS\Serializer\Annotation as JMS;
  */
 class Player
 {
+    const STARTELO = 1500;
+
     /**
      * Player ID
      * @var string
@@ -54,7 +56,7 @@ class Player
      *
      * @JMS\Type("integer")
      */
-    protected $elo = 1500;
+    protected $elo = self::STARTELO;
 
     public function __construct()
     {
