@@ -1,9 +1,26 @@
 <h3>
-    {{ chance }}%
+    {{ player.chance | number : 3 }}%
     <small>win chance</small>
 </h3>
-<h4>
-    <small class="playerstats">
-        Elo: If win <b class="winner">{{ win }} (+{{ win - player.elo }})</b> If lose <b class="loser">{{ lose }} ({{ lose - player.elo }})</b>
-    </small>
-</h4>
+<div class="row">
+    <div class="md6">
+        <h4>Win elo</h4>
+        <small class="playerstats">
+            Normal: <b class="winner">{{ player.win_normal }} (+{{ player.win_normal - player.player.elo }})</b>
+            <br />
+            Gammon: <b class="winner">{{ player.win_gammon }} (+{{ player.win_gammon - player.player.elo }})</b>
+            <br />
+            Backgammon: <b class="winner">{{ player.win_backgammon }} (+{{ player.win_backgammon - player.player.elo }})</b>
+        </small>
+    </div>
+    <div class="md6">
+        <h4>Lose elo</h4>
+        <small class="playerstats">
+            Normal: <b class="loser">{{ player.lose_normal }} ({{ player.lose_normal - player.player.elo }})</b>
+            <br />
+            Gammon: <b class="loser">{{ player.lose_gammon }} ({{ player.lose_gammon - player.player.elo }})</b>
+            <br />
+            Backgammon: <b class="loser">{{ player.lose_backgammon }} ({{ player.lose_backgammon - player.player.elo }})</b>
+        </small>
+    </div>
+</div>

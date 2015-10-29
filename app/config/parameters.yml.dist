@@ -15,5 +15,3 @@ parameters:
     pusher_key: 1234
     pusher_secret: 1234
     pusher_debug: false
-
-    rollbar_accesstoken: 1234

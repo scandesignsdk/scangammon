@@ -18,7 +18,6 @@ class AppKernel extends Kernel
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
             new Lopi\Bundle\PusherBundle\LopiPusherBundle(),
-            new Staffim\RollbarBundle\StaffimRollbarBundle(),
             new AppBundle\AppBundle(),
             new ViewBundle\ViewBundle(),
         );

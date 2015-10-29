@@ -9,12 +9,14 @@ class PlayerGame
 {
 
     /**
+     * Player 1 chances
      * @var PlayerChance
      * @JMS\Type("AppBundle\Document\PlayerChance")
      */
     protected $player1;
 
     /**
+     * Player 2 chances
      * @var PlayerChance
      * @JMS\Type("AppBundle\Document\PlayerChance")
      */

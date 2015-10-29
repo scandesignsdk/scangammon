@@ -4,9 +4,12 @@ imports:
   - { resource: eventlistener.yml }
 
 services:
+    elo_calculator:
+        class: AppBundle\Service\EloCalculator
+
     game.service:
         class: AppBundle\Service\GameService
-        arguments: [@repo.game, @repo.player]
+        arguments: [@repo.game, @repo.player, @elo_calculator]
 
     player.form.player_selector:
         class: AppBundle\Form\PlayerSelectorType

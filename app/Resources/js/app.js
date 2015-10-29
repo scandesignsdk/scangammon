@@ -10,14 +10,6 @@ function doNotify(notify, type, message) {
     });
 }
 
-var playerTemplate = function(name, elo, isBold) {
-    return '<span class="badge">' + elo + '</span> <span class="playername ' + (isBold == 1 ? 'winner' : isBold == 2 ? '' : 'loser') + '">' + name + '</span>';
-};
-
-var playerStatsTemplate = function(winpercentage, winelo, loseelo) {
-    return winpercentage + '%';
-}
-
 app.filter('cutheader', function() {
     return function(value) {
         return value.replace('[PLAYER]', '');
@@ -27,9 +19,12 @@ app.filter('cutheader', function() {
 app.directive('playerHtml', function() {
     return {
         restrict: 'A',
-        template: function(elem, attr) {
-            return playerTemplate(attr.name, attr.elo, attr.bold)
-        }
+        scope: {
+            player: '=',
+            bold: '=',
+            wintype: '='
+        },
+        templateUrl: '../templates/player.html'
     }
 });
 
@@ -54,10 +49,7 @@ app.directive('playerStats', function() {
     return {
         restrict: 'A',
         scope: {
-            player: '=player',
-            chance: '=winchance',
-            win: '=win',
-            lose: '=lose'
+            player: '=player'
         },
         templateUrl: '../templates/playerstats.html'
     }
@@ -69,6 +61,7 @@ app.controller('CreateGameCtrl', ['$scope', '$http', 'notify', function($scope, 
 
     $scope.player1 = undefined;
     $scope.player2 = undefined;
+    $scope.wintype = 0;
     $scope.showWinner = false;
     $scope.stats = undefined;
 
@@ -97,12 +90,14 @@ app.controller('CreateGameCtrl', ['$scope', '$http', 'notify', function($scope, 
             $http.post('/api/game/add', {
                 p1: this.player1,
                 p2: this.player2,
-                winner: winner
+                winner: winner,
+                wintype: this.wintype
             }).then(function successCallback() {
                 $scope.games = [];
                 $scope.player1 = undefined;
                 $scope.player2 = undefined;
                 $scope.showWinner = false;
+                $scope.wintype = 0;
 
                 if(!$scope.$$phase) {
                     select1.val("").trigger("change");
@@ -126,7 +121,6 @@ app.controller('CreateGameCtrl', ['$scope', '$http', 'notify', function($scope, 
                 },
                 responseType: 'json'
             }).then(function successCallback(resp) {
-                Console.log(resp.data);
                 $scope.stats = resp.data;
             })
         }
@@ -169,6 +163,7 @@ app.controller('LatestCtrl', ['$scope', '$http', 'notify', function($scope, $htt
 
     channel.bind('game.create', function(data) {
         var game = JSON.parse(data);
+        console.log('gamecreate', game);
         $scope.games.unshift(game);
         var winnerplayer = '';
         var loserplayer = '';
@@ -179,7 +174,17 @@ app.controller('LatestCtrl', ['$scope', '$http', 'notify', function($scope, $htt
             winnerplayer = game.player2.name;
             loserplayer = game.player1.name;
         }
-        doNotify(notify, 'success', winnerplayer + ' has just beaten ' + loserplayer);
+
+        var msg = winnerplayer + ' has just beaten ' + loserplayer;
+        if (game.wintype == 1) {
+            msg = msg + ' with a gammon';
+        }
+
+        if (game.wintype == 2) {
+            msg = msg + ' with a backgammon';
+        }
+
+        doNotify(notify, 'success', msg);
     });
 
     channel.bind('game.deleted', function() {
@@ -213,6 +218,7 @@ app.controller('StatsCtrl', ['$scope', '$http', function($scope, $http) {
         var stats = JSON.parse(data);
         $scope.stats = stats['gamestats'];
         $.extend($scope.stats, stats['playerstats']);
+        loadPlayerTopList();
     });
 
     channel.bind('player.create', function(data) {
@@ -227,11 +233,15 @@ app.controller('StatsCtrl', ['$scope', '$http', function($scope, $http) {
             $.extend($scope.stats, resp.data['playerstats']);
         });
 
+        loadPlayerTopList();
+    }
+
+    function loadPlayerTopList() {
         $http.get('/api/player', {
             responseType: 'json'
         }).then(function successCallback(resp) {
             $scope.players = resp.data;
         });
-    }
+    };
 
 }]);

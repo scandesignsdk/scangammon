@@ -8,48 +8,56 @@ class PlayerChance
 {
 
     /**
+     * Player
      * @var Player
      * @JMS\Type("AppBundle\Entity\Player")
      */
     protected $player;
 
     /**
+     * Chance to win
      * @var float
      * @JMS\Type("double")
      */
     protected $chance;
 
     /**
+     * Elo if win
      * @var integer
      * @JMS\Type("integer")
      */
     protected $winNormal;
 
     /**
+     * Elo if win with gammon
      * @var integer
      * @JMS\Type("integer")
      */
     protected $winGammon;
 
     /**
+     * Elo if win with backgammon
      * @var integer
      * @JMS\Type("integer")
      */
     protected $winBackgammon;
 
     /**
+     * Elo if lose
      * @var integer
      * @JMS\Type("integer")
      */
     protected $loseNormal;
 
     /**
+     * Elo if lose with gammon
      * @var integer
      * @JMS\Type("integer")
      */
     protected $loseGammon;
 
     /**
+     * Elo if lose with backgammon
      * @var integer
      * @JMS\Type("integer")
      */

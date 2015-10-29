@@ -26,6 +26,7 @@ class PlayerStats
     /**
      * Highest ranked player
      * @var Player
+     * @JMS\Exclude()
      * @JMS\Type("AppBundle\Entity\Player")
      * @JMS\SerializedName("[PLAYER] Highest ranked player")
      */
@@ -34,6 +35,7 @@ class PlayerStats
     /**
      * Lowest ranked player
      * @var Player
+     * @JMS\Exclude()
      * @JMS\Type("AppBundle\Entity\Player")
      * @JMS\SerializedName("[PLAYER] Lowest ranked player")
      */

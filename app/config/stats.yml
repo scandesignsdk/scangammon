@@ -8,6 +8,18 @@ services:
         tags:
             -  { name: stats.add }
 
+    stats.game.gammon:
+        class: AppBundle\Stats\Game\TotalGammonStats
+        arguments: [@repo.game]
+        tags:
+            -  { name: stats.add }
+
+    stats.game.backgammon:
+        class: AppBundle\Stats\Game\TotalBackGammonStats
+        arguments: [@repo.game]
+        tags:
+            -  { name: stats.add }
+
     stats.player.highrank:
         class: AppBundle\Stats\Player\HighestRankedStats
         arguments: [@repo.player]

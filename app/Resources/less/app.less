@@ -23,7 +23,7 @@ html, body {
   opacity:1;
 }
 
-.versus {
+.versus > div:first-child {
   text-align: center;
   padding-top: 20px;
   line-height: @input-height-base;
@@ -46,6 +46,7 @@ html, body {
 }
 
 .playerstats {
+  font-size: @font-size-small;
   font-weight: 100;
 }
 
@@ -116,6 +117,10 @@ h1 {
 
 .md2 {
   .make-md-column(2);
+}
+
+.md1 {
+  .make-md-column(1);
 }
 
 .game {

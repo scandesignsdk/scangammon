@@ -1,14 +1,12 @@
 <?php
 namespace AppBundle\Service;
 
-use AppBundle\Document\PlayerChance;
 use AppBundle\Entity\Game;
 use AppBundle\Entity\GameRepository;
 use AppBundle\Entity\Player;
 use AppBundle\Entity\PlayerGame;
 use AppBundle\Entity\PlayerRepository;
 use FOS\RestBundle\Request\ParamFetcher;
-use Jleagle\Elo\Elo;
 
 class GameService
 {
@@ -23,10 +21,16 @@ class GameService
      */
     private $playerRepository;
 
-    public function __construct(GameRepository $gameRepository, PlayerRepository $playerRepository)
+    /**
+     * @var EloCalculator
+     */
+    private $eloCalculator;
+
+    public function __construct(GameRepository $gameRepository, PlayerRepository $playerRepository, EloCalculator $eloCalculator)
     {
         $this->gameRepository = $gameRepository;
         $this->playerRepository = $playerRepository;
+        $this->eloCalculator = $eloCalculator;
     }
 
     /**
@@ -55,14 +59,8 @@ class GameService
                 throw new \InvalidArgumentException('Wintype not correct format');
             }
 
-            $elo = new Elo(
-                $p1->getElo(),
-                $p2->getElo(),
-                (Game::P1WINNER === (int)$params->get('winner') ? Elo::WIN : Elo::LOST),
-                (Game::P2WINNER === (int)$params->get('winner') ? Elo::WIN : Elo::LOST)
-            );
+            list($p1Elo, $p2Elo) = $this->eloCalculator->getNewElo($p1, $p2, $params->get('winner'), $params->get('wintype'));
 
-            $ratings = $elo->getRatings();
             $gameClass = $this->gameRepository->getClassName();
             /** @var Game $game */
             $game = new $gameClass;
@@ -70,15 +68,15 @@ class GameService
                 ->setPlayer1($p1)
                 ->setPlayer2($p2)
                 ->setWinner($params->get('winner'))
-                ->setPlayer1Elochange($p1->getElo(), $ratings['a'])
-                ->setPlayer2Elochange($p2->getElo(), $ratings['b'])
+                ->setPlayer1Elochange($p1->getElo(), $p1Elo)
+                ->setPlayer2Elochange($p2->getElo(), $p2Elo)
                 ->setWintype($params->get('wintype'))
             ;
 
             $this->save($game, false);
 
-            $p1->setElo($ratings['a']);
-            $p2->setElo($ratings['b']);
+            $p1->setElo($p1Elo);
+            $p2->setElo($p2Elo);
 
             $this->save($p1, false);
             $this->save($p2, true);
@@ -125,41 +123,7 @@ class GameService
             throw new \InvalidArgumentException('Player 2 not found');
         }
 
-        $elo = new Elo(
-            $p1->getElo(),
-            $p2->getElo(),
-            1,
-            0
-        );
-        $expected = $elo->getExpected();
-        $win1 = $elo->getRatings();
-        $elo = new Elo(
-            $p1->getElo(),
-            $p2->getElo(),
-            0,
-            1
-        );
-        $win2 = $elo->getRatings();
-
-        $chance1 = new PlayerChance();
-        $chance1->setPlayer($p1)
-            ->setChance($expected['a'])
-            ->setWinNormal($win1['a'])
-            ->setLoseNormal($win2['a'])
-        ;
-
-        $chance2 = new PlayerChance();
-        $chance2->setPlayer($p2)
-            ->setChance($expected['b'])
-            ->setWinNormal($win1['b'])
-            ->setLoseNormal($win2['b'])
-        ;
-
-        $data = new PlayerGame();
-        $data->setPlayer1($chance1)
-            ->setPlayer2($chance2)
-        ;
-
+        $data = $this->eloCalculator->getPlayerstats($p1, $p2);
         $builder = $this->gameRepository->findByPlayers($p1, $p2);
         $builder->setMaxResults($limit);
         $results = $builder->getQuery()->getResult();

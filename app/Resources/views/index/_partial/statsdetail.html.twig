@@ -5,7 +5,7 @@
             <span ng-if="header.indexOf('[PLAYER]') > -1">
                 {{ ng('header | cutheader') }}:
                 <br />
-                <span player-html name="{{ ng('stat.name') }}" elo="{{ ng('stat.elo') }}" bold="1"></span>
+                <span player-html player="stat" bold="2"></span>
             </span>
             <span ng-if="header.indexOf('[PLAYER]') === -1">
                 {{ ng('header | cutheader') }}: <b>{{ ng('stat') }}</b>

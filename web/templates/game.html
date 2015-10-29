@@ -1,13 +1,17 @@
 <div class="row" data-game-id="{{ game.id }}">
     <div class="md4">
-        <span ng-if="game.winner == 1" player-html name="{{ game.player1.name }}" elo="{{ game.player1.elo }}" bold="1"></span>
-        <span ng-if="game.winner != 1" player-html name="{{ game.player1.name }}" elo="{{ game.player1.elo }}" bold="0"></span>
+        <span ng-if="game.winner == 1" player-html player="game.player1" bold="1" wintype="game.wintype"></span>
+        <span ng-if="game.winner != 1" player-html player="game.player1" bold="0" wintype="game.wintype"></span>
+    </div>
+    <div class="md1">
+        <span ng-if="game.wintype == 1"><abbr title="Gammon">*</abbr></span>
+        <span ng-if="game.wintype == 2"><abbr title="Backgammon">**</abbr></span>
     </div>
     <div class="md4">
-        <span ng-if="game.winner == 2" player-html name="{{ game.player2.name }}" elo="{{ game.player2.elo }}" bold="1"></span>
-        <span ng-if="game.winner != 2" player-html name="{{ game.player2.name }}" elo="{{ game.player2.elo }}" bold="0"></span>
+        <span ng-if="game.winner == 2" player-html player="game.player2" bold="1" wintype="game.wintype"></span>
+        <span ng-if="game.winner != 2" player-html player="game.player2" bold="0" wintype="game.wintype"></span>
     </div>
-    <div class="md4">
+    <div class="md3">
         <span class="timer" am-time-ago="game.date" title="{{ game.date }}"></span>
         <a class="pull-right" href="#" sweetalert sweet-options="{
             title:'Are you sure?',
