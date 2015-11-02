@@ -31,7 +31,7 @@ html, body {
 }
 
 html, body {
-  font-family: "Roboto Slab";
+  font-family: "Roboto Slab", serif;
   font-weight: 400;
 }
 
@@ -48,10 +48,6 @@ html, body {
 .playerstats {
   font-size: @font-size-small;
   font-weight: 100;
-}
-
-.playername {
-  white-space: nowrap;
 }
 
 .timer {
@@ -91,12 +87,25 @@ h1 {
   color: #CD7F32;
 }
 
-.winner {
-  color: @alert-success-text;
-}
+.playername {
+  white-space: nowrap;
+  color: @text-color;
+  > a {
+    color: @text-color;
+  }
+  &.winner {
+    color: @alert-success-text;
+    > a {
+      color: @alert-success-text;
+    }
+  }
 
-.loser {
-  color: @alert-danger-text;
+  &.loser {
+    color: @alert-danger-text;
+    > a {
+      color: @alert-danger-text;
+    }
+  }
 }
 
 .md8 {
@@ -754,8 +763,7 @@ body.stop-scrolling {
   background-size: contain;
   border-radius: 0;
   border: none;
-  background-position: center center;
-  background-repeat: no-repeat;
+  background: no-repeat center center;
 }
 
 /*

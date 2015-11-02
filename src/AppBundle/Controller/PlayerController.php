@@ -2,7 +2,6 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Player;
 use AppBundle\Event\Player\CreateEvent;
 use AppBundle\Events;
 use FOS\RestBundle\Controller\Annotations as FOS;
@@ -14,36 +13,62 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  * Class PlayerController
  * @package AppBundle\Controller
  *
- * @FOS\NamePrefix("user")
+ * @FOS\NamePrefix("player")
  */
 class PlayerController extends BaseController
 {
 
     /**
-     * @FOS\Get()
+     * @FOS\Get("")
      * @ApiDoc(
-     *  section="user",
+     *  section="player",
      *  description="Get players",
      *  output="AppBundle\Entity\Player"
      * )
      *
      * @return JsonResponse
      */
-    public function getAction()
+    public function getPlayersAction()
     {
         $players = $this->getPlayerRepo()->findBy([], ['name' => 'ASC']);
         return new JsonResponse($this->get('serializer')->serialize($players, 'json'));
     }
 
     /**
+     * @FOS\Get()
+     * @ApiDoc(
+     *  section="player",
+     *  description="Get player data",
+     *  output="AppBundle\Entity\SinglePlayer",
+     *  statusCodes={
+     *      404 = "Player not found"
+     *  }
+     * )
+     * @param string $slug
+     * @return JsonResponse
+     */
+    public function cgetAction($slug)
+    {
+        try {
+            $single = $this->get('player.service')->singlePlayer($slug);
+            return new JsonResponse($this->get('serializer')->serialize($single, 'json'));
+        } catch (\InvalidArgumentException $e) {
+            return new JsonResponse(sprintf('Player with ID "%s" not found', $slug), 404);
+        } catch (\Exception $e) {
+            return new JsonResponse($e->getMessage(), 500);
+        }
+    }
+
+    /**
      * @FOS\Post()
      * @FOS\RequestParam(name="name", description="Player name")
      * @ApiDoc(
-     *  section="user",
+     *  section="player",
      *  description="Add a new player",
      *  statusCodes={
      *      200="Player created",
      *      404="Player with same name already exists",
+     *      500="Some other error"
      *  }
      * )
      *
@@ -52,17 +77,15 @@ class PlayerController extends BaseController
      */
     public function addAction(ParamFetcher $params)
     {
-        $player = $this->getPlayerRepo()->findOneBy(['name' => $params->get('name')]);
-        if (! $player) {
-            $player = new Player();
-            $player->setName($params->get('name'));
-            $this->save($player);
-
+        try {
+            $this->get('player.service')->addPlayer($params->get('name'));
             $this->get('event_dispatcher')->dispatch(Events::PLAYER_CREATE, new CreateEvent($player));
             return new JsonResponse('Player created', 200);
+        } catch (\InvalidArgumentException $e) {
+            return new JsonResponse('Player with same name already exists', 404);
+        } catch (\Exception $e) {
+            return new JsonResponse($e->getMessage(), 500);
         }
-
-        return new JsonResponse('Player with same name already exists', 404);
     }
 
 }

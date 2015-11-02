@@ -11,6 +11,10 @@ services:
         class: AppBundle\Service\GameService
         arguments: [@repo.game, @repo.player, @elo_calculator]
 
+    player.service:
+        class: AppBundle\Service\PlayerService
+        arguments: [@repo.player, @repo.game]
+
     player.form.player_selector:
         class: AppBundle\Form\PlayerSelectorType
         arguments: [@repo.player]

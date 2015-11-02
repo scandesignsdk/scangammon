@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use JMS\Serializer\Annotation as JMS;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * AppBundle\Entity\Player
@@ -45,6 +46,19 @@ class Player
      * @JMS\Type("string")
      */
     protected $name;
+
+    /**
+     * Player slug
+     * @var string
+     * @Gedmo\Slug(fields={"name", "id"})
+     *
+     * @ODM\String(name="name")
+     *
+     * @ORM\Column(name="slug", type="string")
+     *
+     * @JMS\Type("string")
+     */
+    protected $slug;
 
     /**
      * Player ELO
@@ -93,6 +107,28 @@ class Player
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Get Slug
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * Set Slug
+     *
+     * @param string $slug
+     * @return Player
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+        return $this;
     }
 
     /**

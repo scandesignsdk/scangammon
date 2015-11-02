@@ -44,7 +44,7 @@ class GameRepository extends EntityRepository
         return key($results);
     }
 
-    private function findByPlayerGames($player = 1, &$output = array())
+    private function findByPlayerGames($player = 1, &$output)
     {
         $rsm = new ResultSetMapping();
         $rsm->addScalarResult('COUNT(id)', 'numgames', 'integer');
@@ -69,6 +69,22 @@ class GameRepository extends EntityRepository
     public function getManager()
     {
         return $this->_em;
+    }
+
+    /**
+     * @param int $id
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function findByPlayer($id)
+    {
+        $builder = $this->createQueryBuilder('game');
+        $builder->where(
+            $builder->expr()->orX(
+                $builder->expr()->eq('game.player1', $id),
+                $builder->expr()->eq('game.player2', $id)
+            )
+        );
+        return $builder;
     }
 
 }

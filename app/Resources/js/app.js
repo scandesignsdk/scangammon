@@ -1,7 +1,5 @@
 var Console = console;
 
-var app = angular.module('myApp', ['angularMoment', 'cgNotify', 'ng-sweet-alert']);
-
 function doNotify(notify, type, message) {
     notify({
         message: message,
@@ -9,6 +7,20 @@ function doNotify(notify, type, message) {
         classes: type == 'success' ? 'cg-success' : 'cg-error'
     });
 }
+
+var app = angular.module('myApp', ['angularMoment', 'cgNotify', 'ng-sweet-alert', 'ngRoute']);
+
+app.config(['$routeProvider', function($routeProvider) {
+    $routeProvider.
+        when('/', {}).
+        when('/player/:slug', {
+            templateUrl: 'partials/player.html',
+            controller: 'SinglePlayerCtrl'
+        }).
+        otherwise({
+            redirectTo: '/'
+        });
+}]);
 
 app.filter('cutheader', function() {
     return function(value) {
@@ -55,6 +67,10 @@ app.directive('playerStats', function() {
     }
 });
 
+app.controller('SinglePlayerCtrl', ['$scope', '$http', function($scope, $http) {
+    console.log('single player ctrl');
+}]);
+
 app.controller('CreateGameCtrl', ['$scope', '$http', 'notify', function($scope, $http, notify) {
 
     $scope.players = [];
@@ -75,7 +91,7 @@ app.controller('CreateGameCtrl', ['$scope', '$http', 'notify', function($scope, 
             playerlist.push({id: player.id, text: player.name, elo: player.elo});
         });
         return playerlist;
-    }
+    };
 
     $scope.deleteGame = function(id) {
         $http.delete('/api/game/' + id).then(function successCallback() {
