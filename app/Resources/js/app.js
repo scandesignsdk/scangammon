@@ -8,19 +8,37 @@ function doNotify(notify, type, message) {
     });
 }
 
-var app = angular.module('myApp', ['angularMoment', 'cgNotify', 'ng-sweet-alert', 'ngRoute']);
+var app = angular.module('myApp', ['angularMoment', 'cgNotify', 'ng-sweet-alert']);
 
-app.config(['$routeProvider', function($routeProvider) {
-    $routeProvider.
-        when('/', {}).
-        when('/player/:slug', {
-            templateUrl: 'partials/player.html',
-            controller: 'SinglePlayerCtrl'
-        }).
-        otherwise({
-            redirectTo: '/'
-        });
-}]);
+function singleplayer($scope, $http) {
+    $scope.total = [];
+    $scope.games = [];
+    $scope.playername = 'XXX';
+    $scope.daystats = [];
+
+    $scope.viewData = function(slug) {
+        var $modal = $('#playermodal');
+        $scope.reset();
+        $modal.modal('show', true);
+
+        $http.get('/api/player/' + slug, {
+                responseType: 'json'
+            })
+            .then(function successCallback(resp) {
+                $scope.games = resp.data.games;
+                $scope.playername = resp.data.data.name;
+                $scope.total = resp.data.total_games;
+                $scope.daystats = resp.data.games_pr_day;
+            });
+    };
+
+    $scope.reset = function() {
+        $scope.total = [];
+        $scope.games = [];
+        $scope.playername = '';
+        $scope.daystats = [];
+    };
+}
 
 app.filter('cutheader', function() {
     return function(value) {
@@ -28,13 +46,19 @@ app.filter('cutheader', function() {
     }
 });
 
+app.controller('SinglePlayerCtrl as spctrl', ['$scope', '$http', singleplayer]);
+
 app.directive('playerHtml', function() {
     return {
+        require: '^spctrl',
         restrict: 'A',
         scope: {
             player: '=',
             bold: '=',
             wintype: '='
+        },
+        link: function(scope, element, attrs, SinglePlayerCtrl) {
+            viewData(SinglePlayerCtrl.viewData(attrs.slug));
         },
         templateUrl: '../templates/player.html'
     }
@@ -66,10 +90,6 @@ app.directive('playerStats', function() {
         templateUrl: '../templates/playerstats.html'
     }
 });
-
-app.controller('SinglePlayerCtrl', ['$scope', '$http', function($scope, $http) {
-    console.log('single player ctrl');
-}]);
 
 app.controller('CreateGameCtrl', ['$scope', '$http', 'notify', function($scope, $http, notify) {
 
@@ -221,7 +241,7 @@ app.controller('LatestCtrl', ['$scope', '$http', 'notify', function($scope, $htt
         }).then(function successCallback(resp) {
             $scope.games = resp.data;
         });
-    }
+    };
 
 }]);
 
@@ -250,7 +270,7 @@ app.controller('StatsCtrl', ['$scope', '$http', function($scope, $http) {
         });
 
         loadPlayerTopList();
-    }
+    };
 
     function loadPlayerTopList() {
         $http.get('/api/player', {
