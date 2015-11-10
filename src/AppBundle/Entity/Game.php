@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use JMS\Serializer\Annotation as JMS;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * AppBundle\Entity\Game

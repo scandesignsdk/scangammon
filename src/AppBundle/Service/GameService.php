@@ -6,7 +6,7 @@ use AppBundle\Entity\GameRepository;
 use AppBundle\Entity\Player;
 use AppBundle\Entity\PlayerGame;
 use AppBundle\Entity\PlayerRepository;
-use FOS\RestBundle\Request\ParamFetcher;
+use FOS\RestBundle\Request\ParamFetcherInterface;
 
 class GameService
 {
@@ -34,11 +34,11 @@ class GameService
     }
 
     /**
-     * @param ParamFetcher $params
+     * @param ParamFetcherInterface $params
      * @return Game
      * @throws \InvalidArgumentException
      */
-    public function createGame(ParamFetcher $params)
+    public function createGame(ParamFetcherInterface $params)
     {
         try {
             $p1 = $this->findPlayerById($params->get('p1'));
@@ -72,6 +72,11 @@ class GameService
                 ->setPlayer2Elochange($p2->getElo(), $p2Elo)
                 ->setWintype($params->get('wintype'))
             ;
+
+            $params = $params->all();
+            if (array_key_exists('date', $params)) {
+                $game->setDate($params['date']);
+            }
 
             $this->save($game, false);
 

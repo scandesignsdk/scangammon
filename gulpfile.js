@@ -20,6 +20,22 @@ gulp.task('setdev', function() {
     gulp.start('default');
 });
 
+gulp.task('startsymfonyserver', function() {
+    var exec = require('child_process').exec;
+    exec('php app/console server:start', function (err, stdout, stderr) {
+        console.log(stdout);
+        console.log(stderr);
+    });
+});
+
+gulp.task('stopsymfonyserver', function() {
+    var exec = require('child_process').exec;
+    exec('php app/console server:stop', function (err, stdout, stderr) {
+        console.log(stdout);
+        console.log(stderr);
+    });
+});
+
 gulp.task('less', function() {
     var options = {
         compress: true,
@@ -110,7 +126,9 @@ gulp.task('bower', function() {
 
 gulp.task('default', ['less', 'bower', 'js', 'font']);
 
-gulp.task('dev', ['setdev'], function() {
+gulp.task('dev', ['startsymfonyserver', 'setdev'], function() {
     gulp.watch(paths.app + '/less/**/*.less', ['less']);
     gulp.watch(paths.app + '/js/**/*.js', ['js']);
 });
+
+gulp.task('stop', ['stopsymfonyserver']);

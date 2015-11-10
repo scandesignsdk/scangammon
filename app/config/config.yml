@@ -52,3 +52,8 @@ lopi_pusher:
     key: %pusher_key%
     secret: %pusher_secret%
     debug: %pusher_debug%
+
+stof_doctrine_extensions:
+    orm:
+        default:
+            sluggable: true
