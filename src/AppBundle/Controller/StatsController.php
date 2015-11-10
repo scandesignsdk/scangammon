@@ -11,6 +11,7 @@ class StatsController extends BaseController
 
     /**
      * @FOS\Get()
+     * @FOS\View()
      * @ApiDoc(
      *  section="stats",
      *  description="Get total games played",
@@ -22,11 +23,13 @@ class StatsController extends BaseController
     public function getGamesAction()
     {
         $stats = $this->get('stats')->getGameStats();
-        return new JsonResponse($this->get('serializer')->serialize($stats, 'json'));
+        $view = $this->view($stats, 200);
+        return $this->handleView($view);
     }
 
     /**
      * @FOS\Get()
+     * @FOS\View()
      * @ApiDoc(
      *  section="stats",
      *  description="Get total players",
@@ -38,11 +41,13 @@ class StatsController extends BaseController
     public function getPlayersAction()
     {
         $stats = $this->get('stats')->getPlayerStats();
-        return new JsonResponse($this->get('serializer')->serialize($stats, 'json'));
+        $view = $this->view($stats, 200);
+        return $this->handleView($view);
     }
 
     /**
      * @FOS\Get()
+     * @FOS\View()
      * @ApiDoc(
      *  section="stats",
      *  description="Get all stats",
@@ -54,7 +59,8 @@ class StatsController extends BaseController
     public function getAllAction()
     {
         $stats = $this->get('stats')->getAll();
-        return new JsonResponse($this->get('serializer')->serialize($stats, 'json'));
+        $view = $this->view($stats, 200);
+        return $this->handleView($view);
     }
 
 }

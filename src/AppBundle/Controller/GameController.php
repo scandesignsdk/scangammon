@@ -15,6 +15,7 @@ class GameController extends BaseController
 
     /**
      * @FOS\Get()
+     * @FOS\View()
      * @FOS\QueryParam(name="limit", requirements="\d+", description="Limit to how many games", default="10")
      * @ApiDoc(
      *  section="game",
@@ -28,11 +29,13 @@ class GameController extends BaseController
     public function getAction(ParamFetcher $params)
     {
         $games = $this->get('game.service')->listGames($params->get('limit'));
-        return new JsonResponse($this->get('serializer')->serialize($games, 'json'));
+        $view = $this->view($games, 200);
+        return $this->handleView($view);
     }
 
     /**
      * @FOS\Get("players")
+     * @FOS\View()
      * @FOS\QueryParam(name="p1", description="Player 1 ID", requirements="\d+")
      * @FOS\QueryParam(name="p2", description="Player 2 ID", requirements="\d+")
      * @FOS\QueryParam(name="limit", requirements="\d+", description="Limit to how many games", default="10")
@@ -55,14 +58,16 @@ class GameController extends BaseController
     {
         try {
             $games = $this->get('game.service')->listGamesByPlayers($params->get('p1'), $params->get('p2'), $params->get('limit'));
-            return new JsonResponse($this->get('serializer')->serialize($games, 'json'));
+            $view = $this->view($games, 200);
         } catch (\Exception $e) {
-            return new JsonResponse($e->getMessage(), 404);
+            $view = $this->view($e->getMessage(), 404);
         }
+        return $this->handleView($view);
     }
 
     /**
      * @FOS\Post()
+     * @FOS\View()
      * @FOS\RequestParam(name="p1", description="Player1 id", requirements="\d+")
      * @FOS\RequestParam(name="p2", description="Player2 id", requirements="\d+")
      * @FOS\RequestParam(name="winner", requirements="\d+", description="Winner - 1 for player 1, 2 for player 2")
@@ -89,10 +94,11 @@ class GameController extends BaseController
         try {
             $game = $this->get('game.service')->createGame($params);
             $this->get('event_dispatcher')->dispatch(Events::GAME_CREATED, new CreateEvent($game));
-            return new JsonResponse('Game created');
+            $view = $this->view($game, 200);
         } catch (\Exception $e) {
-            return new JsonResponse($e->getMessage(), 404);
+            $view = $this->view($e->getMessage(), 404);
         }
+        return $this->handleView($view);
     }
 
     /**
@@ -114,11 +120,11 @@ class GameController extends BaseController
         try {
             $game = $this->get('game.service')->deleteGame($id);
             $this->get('event_dispatcher')->dispatch(Events::GAME_DELETED, new DeleteEvent($game));
-            return new JsonResponse('Game deleted');
+            $view = $this->view('Game deleted', 200);
         } catch (\Exception $e) {
-            return new JsonResponse($e->getMessage(), 404);
+            $view = $this->view($e->getMessage(), 404);
         }
-
+        return $this->handleView($view);
     }
 
 }

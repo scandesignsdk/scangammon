@@ -21,6 +21,7 @@ class PlayerController extends BaseController
 
     /**
      * @FOS\Get()
+     * @FOS\View()
      * @ApiDoc(
      *  section="user",
      *  description="Get players",
@@ -32,11 +33,13 @@ class PlayerController extends BaseController
     public function getAction()
     {
         $players = $this->getPlayerRepo()->findBy([], ['name' => 'ASC']);
-        return new JsonResponse($this->get('serializer')->serialize($players, 'json'));
+        $view = $this->view($players);
+        return $this->handleView($view);
     }
 
     /**
      * @FOS\Post()
+     * @FOS\View()
      * @FOS\RequestParam(name="name", description="Player name")
      * @ApiDoc(
      *  section="user",
@@ -59,10 +62,12 @@ class PlayerController extends BaseController
             $this->save($player);
 
             $this->get('event_dispatcher')->dispatch(Events::PLAYER_CREATE, new CreateEvent($player));
-            return new JsonResponse('Player created', 200);
+            $view = $this->view('Player created', 200);
+        } else {
+            $view = $this->view('Player with same name already exists', 404);
         }
 
-        return new JsonResponse('Player with same name already exists', 404);
+        return $this->handleView($view);
     }
 
 }

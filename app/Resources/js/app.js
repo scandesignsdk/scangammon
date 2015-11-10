@@ -201,6 +201,9 @@ app.controller('LatestCtrl', ['$scope', '$http', 'notify', function($scope, $htt
 
     $scope.init = function() {
         $http.get('/api/game/', {
+            params: {
+                limit: 100
+            },
             responseType: 'json'
         }).then(function successCallback(resp) {
             $scope.games = resp.data;
