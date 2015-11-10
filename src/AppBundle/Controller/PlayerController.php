@@ -38,6 +38,34 @@ class PlayerController extends BaseController
     }
 
     /**
+     * @FOS\Get()
+     * @FOS\View()
+     * @ApiDoc(
+     *  section="player",
+     *  description="Get player data",
+     *  output="AppBundle\Entity\SinglePlayer",
+     *  statusCodes={
+     *      404 = "Player not found"
+     *  }
+     * )
+     * @param string $slug
+     * @return JsonResponse
+     */
+    public function cgetAction($slug)
+    {
+        try {
+            $single = $this->get('player.service')->singlePlayer($slug);
+            $view = $this->view($single, 200);
+        } catch (\InvalidArgumentException $e) {
+            $view = $this->view(sprintf('Player "%s" not found', $slug), 404);
+        } catch (\Exception $e) {
+            $view = $this->view($e->getMessage(), 500);
+        }
+
+        return $this->handleView($view);
+    }
+
+    /**
      * @FOS\Post()
      * @FOS\View()
      * @FOS\RequestParam(name="name", description="Player name")
