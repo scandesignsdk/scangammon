@@ -28,6 +28,26 @@ app.directive('playerHtml', function() {
     }
 });
 
+app.directive('statsHtml', function() {
+    return {
+        restrict: 'A',
+        scope: {
+            stat: '='
+        },
+        templateUrl: '../templates/stats.html'
+    }
+});
+
+app.directive('statHtml', function() {
+    return {
+        restrict: 'A',
+        scope: {
+            stat: '='
+        },
+        templateUrl: '../templates/stat.html'
+    }
+});
+
 app.directive('gameHtml', function() {
     return {
         restrict: 'A',
@@ -117,7 +137,8 @@ app.controller('CreateGameCtrl', ['$scope', '$http', 'notify', function($scope, 
             $http.get('/api/game/players', {
                 params: {
                     p1: this.player1,
-                    p2: this.player2
+                    p2: this.player2,
+                    limit: 100
                 },
                 responseType: 'json'
             }).then(function successCallback(resp) {
@@ -219,9 +240,7 @@ app.controller('StatsCtrl', ['$scope', '$http', function($scope, $http) {
 
     channel.bind('stats.updated', function(data) {
         var stats = JSON.parse(data);
-        $scope.stats = stats['gamestats'];
-        $.extend($scope.stats, stats['playerstats']);
-        loadPlayerTopList();
+        $scope.stats = setStats(stats);
     });
 
     channel.bind('player.create', function(data) {
@@ -232,11 +251,24 @@ app.controller('StatsCtrl', ['$scope', '$http', function($scope, $http) {
         $http.get('/api/stats/all', {
             responseType: 'json'
         }).then(function successCallback(resp) {
-            $scope.stats = resp.data['gamestats'];
-            $.extend($scope.stats, resp.data['playerstats']);
+            $scope.stats = setStats(resp.data);
+            Console.log($scope.stats);
         });
 
         loadPlayerTopList();
+    };
+
+    function setStats(data) {
+        var stats = [];
+        data.gamestats.stats.forEach(function(elm) {
+            stats.push(elm);
+        });
+
+        data.playerstats.stats.forEach(function(elm) {
+            stats.push(elm);
+        });
+
+        return stats;
     }
 
     function loadPlayerTopList() {

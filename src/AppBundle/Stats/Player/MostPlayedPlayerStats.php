@@ -1,6 +1,7 @@
 <?php
 namespace AppBundle\Stats\Player;
 
+use AppBundle\Document\PlayerStat;
 use AppBundle\Document\PlayerStats;
 use AppBundle\Entity\GameRepository;
 use AppBundle\Entity\PlayerRepository;
@@ -19,19 +20,10 @@ class MostPlayedPlayerStats extends AbstractPlayerStats
         $this->gameRepository = $gameRepository;
     }
 
-    /**
-     * @return string
-     */
-    protected function getSetter()
-    {
-        return 'setMostPlayedPlayer';
-    }
-
     public function set(PlayerStats $stats)
     {
-        $player_id = $this->gameRepository->findMostGamesByPlayer();
-        if ($player_id) {
-            $stats->{$this->getSetter()}($this->playerRepository->find($player_id));
-        }
+        $result = $this->gameRepository->findMostGamesByPlayer();
+        $stat = new PlayerStat('Player with most games', $result['numgames'], $this->playerRepository->find($result['player']));
+        $stats->addStat($stat);
     }
 }

@@ -2,13 +2,11 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Player;
 use AppBundle\Event\Player\CreateEvent;
 use AppBundle\Events;
 use FOS\RestBundle\Controller\Annotations as FOS;
 use FOS\RestBundle\Request\ParamFetcher;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Class PlayerController
@@ -20,19 +18,18 @@ class PlayerController extends BaseController
 {
 
     /**
-     * @FOS\Get()
+     * @FOS\Get("")
      * @FOS\View()
      * @ApiDoc(
      *  section="user",
      *  description="Get players",
      *  output="AppBundle\Entity\Player"
      * )
-     *
-     * @return JsonResponse
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function getAction()
+    public function listAction()
     {
-        $players = $this->getPlayerRepo()->findBy([], ['name' => 'ASC']);
+        $players = $this->get('player.service')->findPlayers(['name' => 'asc']);
         $view = $this->view($players);
         return $this->handleView($view);
     }
@@ -41,15 +38,15 @@ class PlayerController extends BaseController
      * @FOS\Get()
      * @FOS\View()
      * @ApiDoc(
-     *  section="player",
+     *  section="user",
      *  description="Get player data",
-     *  output="AppBundle\Entity\SinglePlayer",
+     *  output="AppBundle\Document\SinglePlayer",
      *  statusCodes={
      *      404 = "Player not found"
      *  }
      * )
      * @param string $slug
-     * @return JsonResponse
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function cgetAction($slug)
     {
@@ -75,24 +72,23 @@ class PlayerController extends BaseController
      *  statusCodes={
      *      200="Player created",
      *      404="Player with same name already exists",
-     *  }
+     *  },
+     *  output="AppBundle\Entity\Player"
      * )
      *
      * @param ParamFetcher $params
-     * @return JsonResponse
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function addAction(ParamFetcher $params)
     {
-        $player = $this->getPlayerRepo()->findOneBy(['name' => $params->get('name')]);
-        if (! $player) {
-            $player = new Player();
-            $player->setName($params->get('name'));
-            $this->save($player);
-
+        try {
+            $player = $this->get('player.service')->addPlayer($params->get('name'));
             $this->get('event_dispatcher')->dispatch(Events::PLAYER_CREATE, new CreateEvent($player));
-            $view = $this->view('Player created', 200);
-        } else {
+            $view = $this->view($player, 200);
+        } catch (\InvalidArgumentException $e) {
             $view = $this->view('Player with same name already exists', 404);
+        } catch (\Exception $e) {
+            $view = $this->view($e->getMessage(), 500);
         }
 
         return $this->handleView($view);

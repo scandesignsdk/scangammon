@@ -35,13 +35,20 @@ class GameRepository extends EntityRepository
         return $builder;
     }
 
+    /**
+     * @return array
+     */
     public function findMostGamesByPlayer()
     {
         $results = [];
         $this->findByPlayerGames(1, $results);
         $this->findByPlayerGames(2, $results);
         arsort($results);
-        return key($results);
+
+        $value = reset($results);
+        $key = key($results);
+
+        return ['player' => $key, 'numgames' => $value];
     }
 
     private function findByPlayerGames($player = 1, &$output = array())
@@ -69,6 +76,22 @@ class GameRepository extends EntityRepository
     public function getManager()
     {
         return $this->_em;
+    }
+
+    /**
+     * @param int $playerId
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function findByPlayer($playerId)
+    {
+        $builder = $this->createQueryBuilder('game');
+        $builder->where(
+            $builder->expr()->orX(
+                $builder->expr()->eq('game.player1', $playerId),
+                $builder->expr()->eq('game.player2', $playerId)
+            )
+        );
+        return $builder;
     }
 
 }

@@ -1,51 +1,52 @@
 services:
     stats:
         class: AppBundle\Stats\Stats
+        lazy: true
 
     stats.game.total:
         class: AppBundle\Stats\Game\TotalGameStats
         arguments: [@repo.game]
         tags:
             -  { name: stats.add }
+        lazy: true
+        public: false
 
     stats.game.gammon:
         class: AppBundle\Stats\Game\TotalGammonStats
         arguments: [@repo.game]
         tags:
             -  { name: stats.add }
+        lazy: true
+        public: false
 
     stats.game.backgammon:
         class: AppBundle\Stats\Game\TotalBackGammonStats
         arguments: [@repo.game]
         tags:
             -  { name: stats.add }
-
-    stats.player.highrank:
-        class: AppBundle\Stats\Player\HighestRankedStats
-        arguments: [@repo.player]
-        tags:
-            -  { name: stats.add }
-
-    stats.player.lowrank:
-        class: AppBundle\Stats\Player\LowestRankedStats
-        arguments: [@repo.player]
-        tags:
-            -  { name: stats.add }
+        lazy: true
+        public: false
 
     stats.player.mostplayedplayer:
         class: AppBundle\Stats\Player\MostPlayedPlayerStats
         arguments: [@repo.player, @repo.game]
         tags:
             -  { name: stats.add }
+        lazy: true
+        public: false
 
     stats.player.total:
         class: AppBundle\Stats\Player\TotalPlayerStats
         arguments: [@repo.player]
         tags:
             -  { name: stats.add }
+        lazy: true
+        public: false
 
     stats.player.avg:
         class: AppBundle\Stats\Player\AverageEloStats
         arguments: [@repo.player]
         tags:
             -  { name: stats.add }
+        lazy: true
+        public: false

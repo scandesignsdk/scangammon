@@ -6,19 +6,29 @@ imports:
 services:
     elo_calculator:
         class: AppBundle\Service\EloCalculator
+        lazy: true
 
     game.service:
         class: AppBundle\Service\GameService
         arguments: [@repo.game, @repo.player, @elo_calculator]
+        lazy: true
+
+    player.service:
+        class: AppBundle\Service\PlayerService
+        arguments: [@repo.player, @repo.game]
+        lazy: true
+
 
     player.form.player_selector:
         class: AppBundle\Form\PlayerSelectorType
         arguments: [@repo.player]
         tags:
             - { name: form.type, alias: player_selector }
+        lazy: true
 
     twig.angular:
         class: ViewBundle\Twig\AngularTwig
         public: false
         tags:
             - { name: twig.extension }
+        lazy: true

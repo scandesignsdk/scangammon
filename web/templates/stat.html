@@ -1,0 +1,12 @@
+<div ng-if="stat.has_percent">
+    <b>{{ stat.title }}:</b> {{ stat.value }} <small class="text-muted">{{ stat.percent }}%</small>
+</div>
+
+<div ng-if="! stat.has_percent && ! stat.has_player">
+    <b>{{ stat.title }}:</b> {{ stat.value }}
+</div>
+
+<div ng-if="stat.has_player">
+    <b>{{ stat.title }}:</b> {{ stat.value }}
+    <div player-html bold="2" player="stat.player"></div>
+</div>

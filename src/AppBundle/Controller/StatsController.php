@@ -14,7 +14,7 @@ class StatsController extends BaseController
      * @FOS\View()
      * @ApiDoc(
      *  section="stats",
-     *  description="Get total games played",
+     *  description="Get games stats",
      *  output="AppBundle\Document\GameStats"
      * )
      *
@@ -32,11 +32,9 @@ class StatsController extends BaseController
      * @FOS\View()
      * @ApiDoc(
      *  section="stats",
-     *  description="Get total players",
+     *  description="Get player stats",
      *  output="AppBundle\Document\PlayerStats"
      * )
-     *
-     * @return JsonResponse
      */
     public function getPlayersAction()
     {
@@ -50,7 +48,7 @@ class StatsController extends BaseController
      * @FOS\View()
      * @ApiDoc(
      *  section="stats",
-     *  description="Get all stats",
+     *  description="Get both player and game stats",
      *  output="AppBundle\Document\AllStats"
      * )
      *

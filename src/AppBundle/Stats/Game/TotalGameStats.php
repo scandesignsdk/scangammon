@@ -1,6 +1,7 @@
 <?php
 namespace AppBundle\Stats\Game;
 
+use AppBundle\Document\GameStat;
 use AppBundle\Document\GameStats;
 
 class TotalGameStats extends AbstractGameStats
@@ -8,16 +9,8 @@ class TotalGameStats extends AbstractGameStats
 
     public function set(GameStats $stats)
     {
-        $builder = $this->gameRepository->createQueryBuilder('game');
-        $builder->select('COUNT(game.id)');
-        $stats->{$this->getSetter()}($builder->getQuery()->getSingleScalarResult());
+        $stat = new GameStat('Total games played', $this->totalGames());
+        $stats->addStat($stat);
     }
 
-    /**
-     * @return string
-     */
-    protected function getSetter()
-    {
-        return 'setTotal';
-    }
 }

@@ -6,6 +6,7 @@ services:
         arguments:
             - AppBundle\Entity\Game
         lazy: true
+        public: false
 
     repo.player:
         class: Doctrine\ORM\EntityRepository
@@ -14,3 +15,4 @@ services:
         arguments:
             - AppBundle\Entity\Player
         lazy: true
+        public: false

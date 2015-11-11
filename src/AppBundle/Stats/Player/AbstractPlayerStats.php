@@ -17,9 +17,4 @@ abstract class AbstractPlayerStats implements PlayerStatsInterface, StatsInterfa
         $this->playerRepository = $playerRepository;
     }
 
-    /**
-     * @return string
-     */
-    abstract protected function getSetter();
-
 }

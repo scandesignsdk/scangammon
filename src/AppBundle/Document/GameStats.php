@@ -1,97 +1,40 @@
 <?php
 namespace AppBundle\Document;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use JMS\Serializer\Annotation as JMS;
 
 class GameStats
 {
 
     /**
-     * Total played games
-     * @var int
-     * @JMS\Type("integer")
-     * @JMS\SerializedName("Total games played")
+     * Game stats
+     * @var GameStat[]|ArrayCollection
+     * @JMS\Type("ArrayCollection<AppBundle\Document\GameStat>")
      */
-    protected $total;
+    protected $stats;
 
-    /**
-     * Total gammons
-     * @var int
-     * @JMS\Type("integer")
-     * @JMS\SerializedName("Total gammons")
-     */
-    protected $totalGammon;
-
-    /**
-     * Total backgammons
-     * @var int
-     * @JMS\Type("integer")
-     * @JMS\SerializedName("Total backgammons")
-     */
-    protected $totalBackGammon;
-
-    /**
-     * Get Total
-     *
-     * @return int
-     */
-    public function getTotal()
+    public function __construct()
     {
-        return $this->total;
+        $this->stats = new ArrayCollection();
     }
 
     /**
-     * Set Total
-     *
-     * @param int $total
-     * @return GameStats
+     * @param GameStat $stat
+     * @return $this
      */
-    public function setTotal($total)
+    public function addStat(GameStat $stat)
     {
-        $this->total = $total;
+        $this->stats->add($stat);
         return $this;
     }
 
     /**
-     * Gets the TotalGammon
-     * @return int
+     * @return GameStat[]|ArrayCollection
      */
-    public function getTotalGammon()
+    public function getStats()
     {
-        return $this->totalGammon;
-    }
-
-    /**
-     * @param int $totalGammon
-     *
-     * @return GameStats
-     */
-    public function setTotalGammon($totalGammon)
-    {
-        $this->totalGammon = $totalGammon;
-
-        return $this;
-    }
-
-    /**
-     * Gets the TotalBackGammon
-     * @return int
-     */
-    public function getTotalBackGammon()
-    {
-        return $this->totalBackGammon;
-    }
-
-    /**
-     * @param int $totalBackGammon
-     *
-     * @return GameStats
-     */
-    public function setTotalBackGammon($totalBackGammon)
-    {
-        $this->totalBackGammon = $totalBackGammon;
-
-        return $this;
+        return $this->stats;
     }
 
 }

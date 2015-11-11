@@ -80,6 +80,7 @@ class Stats
         foreach($this->playerStats as $statsProvider) {
             $statsProvider->set($stats);
         }
+
         return $stats;
     }
 

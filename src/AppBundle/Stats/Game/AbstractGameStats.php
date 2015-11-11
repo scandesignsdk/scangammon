@@ -18,8 +18,13 @@ abstract class AbstractGameStats implements GameStatsInterface, StatsInterface
     }
 
     /**
-     * @return string
+     * @return int
      */
-    abstract protected function getSetter();
+    protected function totalGames()
+    {
+        $builder = $this->gameRepository->createQueryBuilder('game');
+        $builder->select('COUNT(game.id)');
+        return $builder->getQuery()->getSingleScalarResult();
+    }
 
 }
