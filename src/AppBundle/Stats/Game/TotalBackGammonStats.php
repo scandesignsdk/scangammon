@@ -17,7 +17,7 @@ class TotalBackGammonStats extends AbstractGameStats
         if ($result == 0) {
             $stat = new GameStat('Total backgammons', $result, 0);
         } else {
-            $stat = new GameStat('Total backgammons', $result, ($result / $this->totalGames()) * 100);
+            $stat = new GameStat('Total backgammons', $result, round(($result / $this->totalGames()) * 100, 2));
         }
 
         $stats->addStat($stat);

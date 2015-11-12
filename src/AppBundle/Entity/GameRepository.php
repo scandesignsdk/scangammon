@@ -38,6 +38,22 @@ class GameRepository extends EntityRepository
     /**
      * @return array
      */
+    public function findLeastGamesByPlayer()
+    {
+        $results = [];
+        $this->findByPlayerGames(1, $results);
+        $this->findByPlayerGames(2, $results);
+        asort($results);
+
+        $value = reset($results);
+        $key = key($results);
+
+        return ['player' => $key, 'numgames' => $value];
+    }
+
+    /**
+     * @return array
+     */
     public function findMostGamesByPlayer()
     {
         $results = [];

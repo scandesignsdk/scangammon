@@ -35,6 +35,14 @@ services:
         lazy: true
         public: false
 
+    stats.player.leastplayedplayer:
+        class: AppBundle\Stats\Player\LeastPlayedPlayerStats
+        arguments: [@repo.player, @repo.game]
+        tags:
+            -  { name: stats.add }
+        lazy: true
+        public: false
+
     stats.player.total:
         class: AppBundle\Stats\Player\TotalPlayerStats
         arguments: [@repo.player]
