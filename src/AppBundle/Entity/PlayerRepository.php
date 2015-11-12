@@ -18,4 +18,30 @@ class PlayerRepository extends EntityRepository
         return $this->_em;
     }
 
+    /**
+     * @return Player
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getLowestWinPercent()
+    {
+        $builder = $this->createQueryBuilder('player');
+        $builder->orderBy('player.winPercent', 'ASC');
+        $builder->setMaxResults(1);
+        return $builder->getQuery()->getSingleResult();
+    }
+
+    /**
+     * @return Player
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getHighestWinPercent()
+    {
+        $builder = $this->createQueryBuilder('player');
+        $builder->orderBy('player.winPercent', 'DESC');
+        $builder->setMaxResults(1);
+        return $builder->getQuery()->getSingleResult();
+    }
+
 }

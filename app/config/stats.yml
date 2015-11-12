@@ -43,6 +43,22 @@ services:
         lazy: true
         public: false
 
+    stats.player.highestwinpercent:
+        class: AppBundle\Stats\Player\PlayerWithHighestWinPercent
+        arguments: [@repo.player]
+        tags:
+            -  { name: stats.add }
+        lazy: true
+        public: false
+
+    stats.player.lowestwinpercent:
+        class: AppBundle\Stats\Player\PlayerWithLowestWinPercent
+        arguments: [@repo.player]
+        tags:
+            -  { name: stats.add }
+        lazy: true
+        public: false
+
     stats.player.total:
         class: AppBundle\Stats\Player\TotalPlayerStats
         arguments: [@repo.player]

@@ -73,6 +73,18 @@ class Player
      */
     protected $elo = self::STARTELO;
 
+    /**
+     * Player ELO
+     * @var float
+     *
+     * @ODM\Integer(name="win_percent")
+     *
+     * @ORM\Column(name="win_percent", type="float")
+     *
+     * @JMS\Type("double")
+     */
+    protected $winPercent = 0;
+
     public function __construct()
     {
         $this->games = new ArrayCollection();
@@ -198,6 +210,27 @@ class Player
     public function addElo($elochange)
     {
         $this->elo += $elochange;
+        return $this;
+    }
+
+    /**
+     * Gets the WinPercent
+     * @return mixed
+     */
+    public function getWinPercent()
+    {
+        return $this->winPercent;
+    }
+
+    /**
+     * @param mixed $winPercent
+     *
+     * @return Player
+     */
+    public function setWinPercent($winPercent)
+    {
+        $this->winPercent = $winPercent;
+
         return $this;
     }
 

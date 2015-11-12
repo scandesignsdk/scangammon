@@ -1,8 +1,6 @@
 <?php
 namespace AppBundle\Command;
 
-use AppBundle\Entity\Game;
-use AppBundle\Entity\GameRepository;
 use AppBundle\Entity\Player;
 use AppBundle\Entity\PlayerRepository;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
