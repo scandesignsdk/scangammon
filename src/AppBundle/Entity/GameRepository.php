@@ -110,4 +110,48 @@ class GameRepository extends EntityRepository
         return $builder;
     }
 
+    /**
+     * @param int $playerId
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function findWonGamesByPlayer($playerId)
+    {
+        $builder = $this->createQueryBuilder('game');
+        $builder->where(
+            $builder->expr()->orX(
+                $builder->expr()->andX(
+                    $builder->expr()->eq('game.player1', $playerId),
+                    $builder->expr()->eq('game.winner', Game::P1WINNER)
+                ),
+                $builder->expr()->andX(
+                    $builder->expr()->eq('game.player2', $playerId),
+                    $builder->expr()->eq('game.winner', Game::P2WINNER)
+                )
+            )
+        );
+        return $builder;
+    }
+
+    /**
+     * @param int $playerId
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function findLostGamesByPlayer($playerId)
+    {
+        $builder = $this->createQueryBuilder('game');
+        $builder->where(
+            $builder->expr()->orX(
+                $builder->expr()->andX(
+                    $builder->expr()->eq('game.player1', $playerId),
+                    $builder->expr()->eq('game.winner', Game::P2WINNER)
+                ),
+                $builder->expr()->andX(
+                    $builder->expr()->eq('game.player2', $playerId),
+                    $builder->expr()->eq('game.winner', Game::P1WINNER)
+                )
+            )
+        );
+        return $builder;
+    }
+
 }

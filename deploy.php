@@ -41,6 +41,7 @@ task('deploy', [
 
 set('repository', 'git@github.com:scandesignsdk/scangammon.git');
 server('prod', 'scangammon.aarhof.eu', 22)
+    ->user('root')
     ->forwardAgent()
     ->stage('production')
     ->env('deploy_path', '/var/www/scangammon.aarhof.eu')

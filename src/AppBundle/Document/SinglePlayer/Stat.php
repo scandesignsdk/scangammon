@@ -29,11 +29,25 @@ class Stat
     protected $percent = null;
 
     /**
+     * Has percent
+     * @var bool
+     * @JMS\Type("boolean")
+     */
+    protected $has_percent = false;
+
+    /**
      * Player
      * @var Player
      * @JMS\Type("AppBundle\Entity\Player")
      */
     protected $player = null;
+
+    /**
+     * Has player
+     * @var bool
+     * @JMS\Type("boolean")
+     */
+    protected $has_player = false;
 
     /**
      * @param string $title
@@ -46,7 +60,14 @@ class Stat
         $this->title = $title;
         $this->value = $value;
         $this->percent = $percent;
+        if ($this->percent !== null) {
+            $this->has_percent = true;
+        }
+
         $this->player = $player;
+        if ($this->player !== null) {
+            $this->has_player = true;
+        }
     }
 
     /**

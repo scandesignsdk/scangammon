@@ -38,20 +38,20 @@ class WinRate extends AbstractStats
     private function addResult(Player $player, array $result, array &$matches)
     {
         if ($result['p1'] == $player->getId()) {
-            $this->setMatch($matches, $result, 'p2');
+            $this->setMatch($matches, $result, 'p2', Game::P1WINNER);
         } else {
-            $this->setMatch($matches, $result, 'p1');
+            $this->setMatch($matches, $result, 'p1', Game::P2WINNER);
         }
     }
 
-    private function setMatch(array &$matches, array $result, $type)
+    private function setMatch(array &$matches, array $result, $type, $winner)
     {
         if (! isset($matches[$result[$type]])) {
             $matches[$result[$type]]['wins'] = 0;
             $matches[$result[$type]]['lost'] = 0;
         }
 
-        if ($result['winner'] == Game::P1WINNER) {
+        if ($result['winner'] == $winner) {
             $matches[$result[$type]]['wins'] += 1;
         } else {
             $matches[$result[$type]]['lost'] += 1;

@@ -1,5 +1,5 @@
 <div ng-if="stat.has_percent">
-    <b>{{ stat.title }}:</b> {{ stat.value }} <small class="text-muted">{{ stat.percent }}%</small>
+    <b>{{ stat.title }}:</b> {{ stat.value }} <small class="text-muted">{{ stat.percent | number : 3 }}%</small>
 </div>
 
 <div ng-if="! stat.has_percent && ! stat.has_player">

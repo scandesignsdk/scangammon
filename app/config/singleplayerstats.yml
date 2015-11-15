@@ -47,3 +47,19 @@ services:
             -  { name: stats.add }
         lazy: true
         public: false
+
+    stats.sp.wins:
+        class: AppBundle\Stats\SinglePlayer\Wins
+        arguments: [@repo.player, @repo.game]
+        tags:
+            -  { name: stats.add }
+        lazy: true
+        public: false
+
+    stats.sp.lost:
+        class: AppBundle\Stats\SinglePlayer\Lost
+        arguments: [@repo.player, @repo.game]
+        tags:
+            -  { name: stats.add }
+        lazy: true
+        public: false
