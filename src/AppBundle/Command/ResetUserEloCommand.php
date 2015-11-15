@@ -3,6 +3,7 @@ namespace AppBundle\Command;
 
 use AppBundle\Entity\Game;
 use AppBundle\Entity\Player;
+use AppBundle\Entity\PlayerRepository;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -28,6 +29,7 @@ class ResetUserEloCommand extends ContainerAwareCommand
         /** @var Player[] $players */
         $players = $this->getContainer()->get('repo.player')->findAll();
 
+        /** @var Player[] $playerlist */
         $playerlist = [];
         foreach($players as $player) {
             $player->setElo(Player::STARTELO);
@@ -43,12 +45,28 @@ class ResetUserEloCommand extends ContainerAwareCommand
             $p2->setElo($newelo[1]);
         }
 
-        $manager = $this->getContainer()->get('repo.player')->getManager();
         foreach($playerlist as $player) {
-            $manager->persist($player);
+            $this->getManager()->persist($player);
         }
 
-        $manager->flush();
+        $this->getManager()->flush();
+    }
+
+    /**
+     * @return PlayerRepository
+     */
+    protected function getRepo()
+    {
+        try {
+            return $this->getContainer()->get('repo.player');
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    protected function getManager()
+    {
+        return $this->getRepo()->getManager();
     }
 
 }

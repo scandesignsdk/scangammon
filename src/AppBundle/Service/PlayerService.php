@@ -1,8 +1,8 @@
 <?php
 namespace AppBundle\Service;
 
-use AppBundle\Document\PlayerGamesPrDay;
-use AppBundle\Document\SinglePlayer;
+use AppBundle\Document\SinglePlayer\PlayerGamesPrDay;
+use AppBundle\Document\SinglePlayer\Stats;
 use AppBundle\Entity\Game;
 use AppBundle\Entity\GameRepository;
 use AppBundle\Entity\Player;
@@ -53,80 +53,17 @@ class PlayerService
 
     /**
      * @param string $slug
-     * @return SinglePlayer
+     * @return Player
      * @throws \InvalidArgumentException
-     * @throws \Exception
      */
     public function singlePlayer($slug)
     {
         $player = $this->playerRepository->findOneBy(['slug' => $slug]);
-        if (! $player instanceof Player) {
-            throw new \InvalidArgumentException();
+        if ($player instanceof Player) {
+            return $player;
         }
 
-        try {
-            $single = new SinglePlayer();
-            $single->setData($player);
-            $single->setGames($this->listGamesByPlayer($player, 30));
-            $single->setTotalGames($this->countGamesByPlayer($player));
-            $single->setGamesPrDay($this->getGamesPrDay($player));
-            return $single;
-        } catch (\Exception $e) {
-            throw $e;
-        }
-    }
-
-    /**
-     * @param Player $player
-     * @param $limit
-     * @return Game[]
-     */
-    private function listGamesByPlayer(Player $player, $limit)
-    {
-        $builder = $this->gameRepository->findByPlayer($player->getId());
-        $builder->setMaxResults($limit);
-        return $builder->getQuery()->getResult();
-    }
-
-    /**
-     * @param Player $player
-     * @return int
-     * @throws \Exception
-     */
-    private function countGamesByPlayer(Player $player)
-    {
-        $builder = $this->gameRepository->findByPlayer($player->getId());
-        $builder->select($builder->expr()->count('game'));
-        try {
-            return $builder->getQuery()->getSingleScalarResult();
-        } catch (\Exception $e) {
-            throw $e;
-        }
-    }
-
-    /**
-     * @param Player $player
-     * @return PlayerGamesPrDay[]
-     */
-    private function getGamesPrDay(Player $player)
-    {
-        $rsm = new ResultSetMapping();
-        $rsm->addScalarResult('counter', 'counter', 'integer');
-        $rsm->addScalarResult('date', 'date', 'datetime');
-        $sql = 'SELECT COUNT(*) as counter, date FROM game WHERE player1_id = :p1 OR player2_id = :p2 GROUP BY DAY(date)';
-
-        $manager = $this->gameRepository->getManager();
-        $nq = $manager->createNativeQuery($sql, $rsm);
-        $results = $nq->execute([
-            'p1' => $player->getId(),
-            'p2' => $player->getId()
-        ]);
-
-        $out = [];
-        foreach($results as $res) {
-            $out[] = new PlayerGamesPrDay($res['counter'], $res['date']);
-        }
-        return $out;
+        throw new \InvalidArgumentException();
     }
 
     /**

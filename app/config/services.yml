@@ -1,6 +1,9 @@
 imports:
   - { resource: repositories.yml }
   - { resource: stats.yml }
+  - { resource: playerstats.yml }
+  - { resource: gamestats.yml }
+  - { resource: singleplayerstats.yml }
   - { resource: eventlistener.yml }
 
 services:

@@ -2,7 +2,7 @@
     <div class="panel-heading">Latest matches</div>
     <div class="latestgameslist">
         <ul class="list-group">
-            <li class="list-group-item" ng-repeat="game in games">
+            <li class="list-group-item" ng-repeat="game in games | orderBy: '-date'">
                 <span game-html game="{{ game }}"></span>
             </li>
         </ul>

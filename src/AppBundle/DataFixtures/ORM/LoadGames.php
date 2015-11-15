@@ -43,7 +43,7 @@ class LoadGames implements FixtureInterface, ContainerAwareInterface
     {
         $this->faker = Factory::create();
 
-        for($i = 0; $i < 5; $i++) {
+        for($i = 0; $i < 2; $i++) {
             $p = new Player();
             $p->setName('Player ' . $i);
             $manager->persist($p);
@@ -52,7 +52,7 @@ class LoadGames implements FixtureInterface, ContainerAwareInterface
 
         $manager->flush();
 
-        for($i = 0; $i < 1000; $i++) {
+        for($i = 0; $i < 10; $i++) {
             $p1 = $this->randomPlayer();
             $p2 = $this->randomPlayer($p1);
 

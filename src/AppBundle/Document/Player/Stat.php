@@ -1,9 +1,10 @@
 <?php
-namespace AppBundle\Document;
+namespace AppBundle\Document\Player;
 
+use AppBundle\Entity\Player;
 use JMS\Serializer\Annotation as JMS;
 
-class GameStat
+class Stat
 {
 
     /**
@@ -21,27 +22,29 @@ class GameStat
     protected $value;
 
     /**
-     * Stat percent
-     * @var float
-     * @JMS\Type("double")
+     * Player
+     * @var Player
+     * @JMS\Type("AppBundle\Entity\Player")
      */
-    protected $percent;
+    protected $player;
 
     /**
-     * If the stat has percent
+     * If the stat has player
      * @var bool
      * @JMS\Type("boolean")
      */
-    protected $hasPercent = false;
+    protected $hasPlayer = false;
 
-    public function __construct($title, $value, $percent = null)
+    public function __construct($title, $value, Player $player = null)
     {
         $this->title = $title;
         $this->value = $value;
-        $this->percent = $percent;
-        if ($percent !== null) {
-            $this->hasPercent = true;
+
+        $this->player = $player;
+        if ($player != null) {
+            $this->hasPlayer = true;
         }
+
     }
 
     /**
@@ -61,19 +64,20 @@ class GameStat
     }
 
     /**
-     * @return float
+     * @return Player
      */
-    public function getPercent()
+    public function getPlayer()
     {
-        return $this->percent;
+        return $this->player;
     }
 
     /**
      * @return boolean
      */
-    public function isHasPercent()
+    public function isHasPlayer()
     {
-        return $this->hasPercent;
+        return $this->hasPlayer;
     }
+
 
 }

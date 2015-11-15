@@ -1,16 +1,16 @@
 <?php
-namespace AppBundle\Document;
+namespace AppBundle\Document\Player;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use JMS\Serializer\Annotation as JMS;
 
-class PlayerStats
+class Stats
 {
 
     /**
      * Player stat
-     * @var PlayerStat[]|ArrayCollection
-     * @JMS\Type("ArrayCollection<AppBundle\Document\PlayerStat>")
+     * @var Stat[]|ArrayCollection
+     * @JMS\Type("ArrayCollection<AppBundle\Document\Player\Stat>")
      */
     protected $stats;
 
@@ -20,17 +20,17 @@ class PlayerStats
     }
 
     /**
-     * @param PlayerStat $stat
+     * @param Stat $stat
      * @return $this
      */
-    public function addStat(PlayerStat $stat)
+    public function addStat(Stat $stat)
     {
         $this->stats->add($stat);
         return $this;
     }
 
     /**
-     * @return PlayerStat[]|ArrayCollection
+     * @return Stat[]|ArrayCollection
      */
     public function getStats()
     {

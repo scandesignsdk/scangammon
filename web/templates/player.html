@@ -1,4 +1,4 @@
 <span class="badge">{{ player.elo }}</span>
-<span ng-if="bold == 2" class="playername">{{ player.name }}</span>
+<span ng-if="bold == 2" class="playername"><a href="#/player/{{ player.slug }}">{{ player.name }}</a></span>
 <span ng-if="bold == 1" class="playername winner wintype_{{ wintype }}">{{ player.name }}</span>
 <span ng-if="bold == 0" class="playername loser wintype_{{ wintype }}">{{ player.name }}</span>

@@ -1,6 +1,6 @@
 var Console = console;
 
-var app = angular.module('myApp', ['angularMoment', 'cgNotify', 'ng-sweet-alert']);
+var app = angular.module('myApp', ['ngRoute', 'angularMoment', 'cgNotify', 'ng-sweet-alert']);
 
 function doNotify(notify, type, message) {
     notify({
@@ -10,11 +10,19 @@ function doNotify(notify, type, message) {
     });
 }
 
-app.filter('cutheader', function() {
-    return function(value) {
-        return value.replace('[PLAYER]', '');
-    }
-});
+app.config(['$routeProvider', function($routeProvider) {
+    $routeProvider
+        .when('/', {
+            templateUrl: 'templates/index.html'
+        })
+        .when('/player/:slug', {
+            templateUrl: 'templates/singleplayer.html'
+        })
+        .otherwise({
+            redirectTo: '/'
+        })
+    ;
+}]);
 
 app.directive('playerHtml', function() {
     return {
@@ -75,6 +83,33 @@ app.directive('playerStats', function() {
     }
 });
 
+app.controller('SinglePlayerCtrl', ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams) {
+
+    $scope.player = null;
+    $scope.games = [];
+    $scope.stats = [];
+    $scope.against = [];
+    $scope.prday = [];
+
+    $scope.init = function() {
+        $http.get('/api/player/' + $routeParams['slug'], {
+            responseType: 'json'
+        }).then(
+            function successCallback(resp) {
+                $scope.player = resp.data.data;
+                $scope.games = resp.data.games;
+                $scope.stats = resp.data.stats;
+                $scope.against = resp.data.against;
+                $scope.prday = resp.data['games_pr_day'];
+            }, function errorCallback(resp) {
+                alert('Player not found');
+                console.log(resp);
+            }
+        )
+    }
+
+}]);
+
 app.controller('CreateGameCtrl', ['$scope', '$http', 'notify', function($scope, $http, notify) {
 
     $scope.players = [];
@@ -95,7 +130,7 @@ app.controller('CreateGameCtrl', ['$scope', '$http', 'notify', function($scope, 
             playerlist.push({id: player.id, text: player.name, elo: player.elo});
         });
         return playerlist;
-    }
+    };
 
     $scope.deleteGame = function(id) {
         $http.delete('/api/game/' + id).then(function successCallback() {
@@ -118,14 +153,6 @@ app.controller('CreateGameCtrl', ['$scope', '$http', 'notify', function($scope, 
                 $scope.player2 = undefined;
                 $scope.showWinner = false;
                 $scope.wintype = 0;
-
-                if(!$scope.$$phase) {
-                    select1.val("").trigger("change");
-                }
-
-                if(!$scope.$$phase) {
-                    select2.val("").trigger("change");
-                }
             });
         }
     };
@@ -184,7 +211,6 @@ app.controller('LatestCtrl', ['$scope', '$http', 'notify', function($scope, $htt
 
     channel.bind('game.create', function(data) {
         var game = JSON.parse(data);
-        console.log('gamecreate', game);
         $scope.games.unshift(game);
         var winnerplayer = '';
         var loserplayer = '';
@@ -252,7 +278,6 @@ app.controller('StatsCtrl', ['$scope', '$http', function($scope, $http) {
             responseType: 'json'
         }).then(function successCallback(resp) {
             $scope.stats = setStats(resp.data);
-            Console.log($scope.stats);
         });
 
         loadPlayerTopList();
@@ -260,11 +285,11 @@ app.controller('StatsCtrl', ['$scope', '$http', function($scope, $http) {
 
     function setStats(data) {
         var stats = [];
-        data.gamestats.stats.forEach(function(elm) {
+        data['gamestats'].stats.forEach(function(elm) {
             stats.push(elm);
         });
 
-        data.playerstats.stats.forEach(function(elm) {
+        data['playerstats'].stats.forEach(function(elm) {
             stats.push(elm);
         });
 
@@ -277,6 +302,6 @@ app.controller('StatsCtrl', ['$scope', '$http', function($scope, $http) {
         }).then(function successCallback(resp) {
             $scope.players = resp.data;
         });
-    };
+    }
 
 }]);

@@ -1,0 +1,108 @@
+<!-- Create game begin -->
+<div class="game" ng-controller="CreateGameCtrl" data-ng-init="init()">
+    <form class="row well well-vsm">
+        <div class="md5">
+            <div class="form-group">
+                <label for="player1"></label>
+                <select class="form-control playerselect" id="player1" data-placeholder="Select a player" ng-model="player1" ng-change="update()">
+                    <option></option>
+                    <option ng-repeat="player in players track by $index" value="{{ player.id }}">{{ player.name }} - {{ player.elo }}</option>
+                </select>
+            </div>
+            <button ng-show="showWinner" ng-click="addGame(1)" class="btn btn-block btn-success">Winner</button>
+            <div ng-show="showWinner" class="winchance" player-stats player="stats.player1"></div>
+        </div>
+
+        <div class="md2 versus">
+            <div>vs</div>
+            <div ng-show="showWinner">
+                <hr />
+                <label><input type="radio" name="wintype" value="0" checked ng-model="wintype"> Normal</label>
+                <label><input type="radio" name="wintype" value="1" ng-model="wintype"> Gammon</label>
+                <label><input type="radio" name="wintype" value="2" ng-model="wintype"> Backgammon</label>
+            </div>
+        </div>
+
+        <div class="md5">
+            <div class="form-group">
+                <label for="player2"></label>
+                <select class="form-control playerselect" id="player2" data-placeholder="Select a player" ng-model="player2" ng-change="update()">
+                    <option></option>
+                    <option ng-repeat="player in players track by $index" value="{{ player.id }}">{{ player.name }} - {{ player.elo }}</option>
+                </select>
+            </div>
+            <button ng-show="showWinner" ng-click="addGame(2)" class="btn btn-block btn-success">Winner</button>
+            <div ng-show="showWinner" class="winchance" player-stats player="stats.player2"></div>
+        </div>
+    </form>
+
+    <div class="row">
+        <div games gameslist="stats.games" ng-show="stats.games.length > 0 && showWinner"></div>
+    </div>
+</div>
+<!-- Create game end -->
+
+<div class="stats">
+
+    <div class="row">
+        <div class="md8">
+            <!-- Create player begin -->
+            <form ng-controller="CreatePlayerCtrl">
+                <div class="well">
+                    <div class="input-group">
+                        <label for="create_player" class="sr-only">Player name</label>
+                        <input type="text" class="form-control" id="create_player" placeholder="Create player" ng-model="player">
+            <span class="input-group-btn">
+                <button type="submit" class="btn btn-primary" sweetalert sweet-options="{
+                    title:'Are you sure?',
+                    text:'You are now trying to create a new player',
+                    type:'warning',
+                    confirmButtonText:'Yes I am',
+                    showCancelButton:true,
+                    cancelButtonText:'Nope'
+                }" sweet-confirm-option="{
+                    title:'Created',
+                    text:'A new player has entered the arena',
+                    type:'success',
+                }" sweet-on-confirm="create()">Create</button>
+            </span>
+                    </div>
+                </div>
+            </form>
+            <!-- Create player end -->
+
+            <!-- Latest begin -->
+            <div ng-controller="LatestCtrl" data-ng-init="init()">
+                <div games gameslist="games" ng-show="games.length > 0"></div>
+            </div>
+            <!-- Latest end -->
+        </div>
+
+        <div class="md4" ng-controller="StatsCtrl" data-ng-init="init()">
+            <!-- player list begin -->
+            <div class="panel panel-default">
+                <div class="panel-heading">Players</div>
+                <ul class="list-group">
+                    <li class="list-group-item" ng-repeat="player in players | orderBy:'-elo'">
+                        <i class="pull-right fa gold fa-circle" ng-if="$index == 0"></i>
+                        <i class="pull-right fa silver fa-circle" ng-if="$index == 1"></i>
+                        <i class="pull-right fa bronze fa-circle" ng-if="$index == 2"></i>
+                        <span player-html player="player" bold="2"></span>
+                    </li>
+                </ul>
+            </div>
+            <!-- player list end -->
+
+            <!-- stats begin -->
+            <div class="panel panel-default hidden-xs">
+                <div class="panel-heading">Stats</div>
+                <ul class="list-group" ng-repeat="stat in stats">
+                    <li class="list-group-item" stat-html stat="stat"></li>
+                </ul>
+            </div>
+            <!-- stats end -->
+        </div>
+
+    </div>
+
+</div>

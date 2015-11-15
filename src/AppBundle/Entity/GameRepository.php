@@ -69,16 +69,16 @@ class GameRepository extends EntityRepository
 
     private function findByPlayerGames($player = 1, &$output = array())
     {
+        if ($player === 1) {
+            $sql = 'SELECT COUNT(id), player1_id as id FROM game GROUP BY player1_id ORDER BY COUNT(id) DESC';
+        } else {
+            $sql = 'SELECT COUNT(id), player2_id as id FROM game GROUP BY player2_id ORDER BY COUNT(id) DESC';
+        }
+
         $rsm = new ResultSetMapping();
         $rsm->addScalarResult('COUNT(id)', 'numgames', 'integer');
         $rsm->addScalarResult('id', 'id', 'integer');
-        $query = sprintf(
-            'SELECT COUNT(id), player%d_id as id FROM game GROUP BY player%d_id ORDER BY COUNT(id) DESC',
-            $player,
-            $player
-        );
-
-        $q = $this->_em->createNativeQuery($query, $rsm);
+        $q = $this->_em->createNativeQuery($sql, $rsm);
         $results = $q->getResult();
         foreach($results as $res) {
             if (array_key_exists($res['id'], $output)) {

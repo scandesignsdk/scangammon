@@ -1,12 +1,12 @@
 <?php
-namespace AppBundle\Document;
+namespace AppBundle\Document\SinglePlayer;
 
 use AppBundle\Entity\Game;
 use AppBundle\Entity\Player;
 use Doctrine\Common\Collections\ArrayCollection;
 use JMS\Serializer\Annotation as JMS;
 
-class SinglePlayer
+class Stats
 {
 
     /**
@@ -26,21 +26,30 @@ class SinglePlayer
     /**
      * Games pr day
      * @var PlayerGamesPrDay
-     * @JMS\Type("ArrayCollection<AppBundle\Document\PlayerGamesPrDay>")
+     * @JMS\Type("ArrayCollection<AppBundle\Document\SinglePlayer\PlayerGamesPrDay>")
      */
     protected $gamesPrDay;
 
     /**
-     * Total games played
-     * @var int
-     * @JMS\Type("integer")
+     * Opponents matches
+     * @var AgainstPlayerWinRate[]|ArrayCollection
+     * @JMS\Type("ArrayCollection<AppBundle\Document\SinglePlayer\AgainstPlayerWinRate>")
      */
-    protected $totalGames;
+    protected $against;
+
+    /**
+     * Stats
+     * @var Stat[]|ArrayCollection
+     * @JMS\Type("ArrayCollection<AppBundle\Document\SinglePlayer\Stat>")
+     */
+    protected $stats;
 
     public function __construct()
     {
         $this->games = new ArrayCollection();
         $this->gamesPrDay = new ArrayCollection();
+        $this->stats = new ArrayCollection();
+        $this->against = new ArrayCollection();
     }
 
     /**
@@ -57,7 +66,7 @@ class SinglePlayer
      * Set Data
      *
      * @param Player $data
-     * @return SinglePlayer
+     * @return Stats
      */
     public function setData(Player $data)
     {
@@ -91,7 +100,7 @@ class SinglePlayer
      * Set Games
      *
      * @param Game[] $games
-     * @return SinglePlayer
+     * @return Stats
      */
     public function setGames(array $games = null)
     {
@@ -130,7 +139,7 @@ class SinglePlayer
      * Set AvgGamesDay
      *
      * @param array $gamesPrDay
-     * @return SinglePlayer
+     * @return Stats
      */
     public function setGamesPrDay(array $gamesPrDay = null)
     {
@@ -144,25 +153,81 @@ class SinglePlayer
     }
 
     /**
-     * Get TotalGames
+     * Get Stats
      *
-     * @return int
+     * @return Stat[]|ArrayCollection
      */
-    public function getTotalGames()
+    public function getStats()
     {
-        return $this->totalGames;
+        return $this->stats;
     }
 
     /**
-     * Set TotalGames
+     * Add stat
      *
-     * @param int $totalGames
-     * @return SinglePlayer
+     * @param Stat $stat
+     * @return $this
      */
-    public function setTotalGames($totalGames)
+    public function addStat(Stat $stat)
     {
-        $this->totalGames = $totalGames;
+        $this->stats->add($stat);
         return $this;
     }
 
+    /**
+     * Set Stats
+     *
+     * @param Stat[]|ArrayCollection $stats
+     * @return Stats
+     */
+    public function setStats(array $stats = null)
+    {
+        $this->stats = new ArrayCollection();
+        if ($stats) {
+            foreach($stats as $stat) {
+                $this->addStat($stat);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Get Against
+     *
+     * @return AgainstPlayerWinRate[]|ArrayCollection
+     */
+    public function getAgainst()
+    {
+        return $this->against;
+    }
+
+    /**
+     * Set Against
+     *
+     * @param AgainstPlayerWinRate[]|ArrayCollection $against
+     * @return Stats
+     */
+    public function setAgainst(array $against = null)
+    {
+        $this->against = new ArrayCollection();
+        if ($against) {
+            foreach($against as $a) {
+                $this->addAgainst($a);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Add against
+     *
+     * @param AgainstPlayerWinRate $against
+     * @return Stats
+     */
+    public function addAgainst(AgainstPlayerWinRate $against)
+    {
+        $this->against->add($against);
+        return $this;
+    }
 }

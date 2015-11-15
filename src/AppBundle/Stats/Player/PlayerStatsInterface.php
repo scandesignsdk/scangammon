@@ -1,11 +1,11 @@
 <?php
 namespace AppBundle\Stats\Player;
 
-use AppBundle\Document\PlayerStats;
+use AppBundle\Document\Player\Stats;
 
 interface PlayerStatsInterface
 {
 
-    public function set(PlayerStats $stats);
+    public function set(Stats $stats);
 
 }

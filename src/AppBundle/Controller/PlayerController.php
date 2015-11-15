@@ -51,8 +51,9 @@ class PlayerController extends BaseController
     public function cgetAction($slug)
     {
         try {
-            $single = $this->get('player.service')->singlePlayer($slug);
-            $view = $this->view($single, 200);
+            $player = $this->get('player.service')->singlePlayer($slug);
+            $stats = $this->get('stats')->getSinglePlayerStats($player);
+            $view = $this->view($stats, 200);
         } catch (\InvalidArgumentException $e) {
             $view = $this->view(sprintf('Player "%s" not found', $slug), 404);
         } catch (\Exception $e) {

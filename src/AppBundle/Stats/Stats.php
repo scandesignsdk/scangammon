@@ -1,11 +1,14 @@
 <?php
 namespace AppBundle\Stats;
 
+use AppBundle\Document\Game\Stats as GameStats;
+use AppBundle\Document\Player\Stats as PlayerStats;
 use AppBundle\Document\AllStats;
-use AppBundle\Document\GameStats;
-use AppBundle\Document\PlayerStats;
+use AppBundle\Document\SinglePlayer\Stats as SinglePlayerStats;
+use AppBundle\Entity\Player;
 use AppBundle\Stats\Game\GameStatsInterface;
 use AppBundle\Stats\Player\PlayerStatsInterface;
+use AppBundle\Stats\SinglePlayer\StatsInterface as SPStatsInterface;
 
 class Stats
 {
@@ -21,10 +24,19 @@ class Stats
     private $playerStats = [];
 
     /**
+     * @var SPStatsInterface[]
+     */
+    private $singlePlayerStats = [];
+
+    /**
      * @param StatsInterface $stats
      */
     public function add(StatsInterface $stats)
     {
+
+        if ($stats instanceof SPStatsInterface) {
+            $this->singlePlayerStats[] = $stats;
+        }
 
         if ($stats instanceof GameStatsInterface) {
             $this->gameStats[] = $stats;
@@ -52,6 +64,25 @@ class Stats
     }
 
     /**
+     * @param Player $player
+     * @param SinglePlayerStats|null $stats
+     * @return SinglePlayerStats
+     */
+    public function getSinglePlayerStats(Player $player, SinglePlayerStats $stats = null)
+    {
+        if ($stats === null) {
+            $stats = new SinglePlayerStats();
+            $stats->setData($player);
+        }
+
+        foreach($this->singlePlayerStats as $provider) {
+            $provider->set($player, $stats);
+        }
+
+        return $stats;
+    }
+
+    /**
      * @param GameStats $stats
      * @return GameStats
      */
@@ -64,6 +95,7 @@ class Stats
         foreach($this->gameStats as $statsProvider) {
             $statsProvider->set($stats);
         }
+
         return $stats;
     }
 

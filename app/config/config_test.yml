@@ -4,6 +4,7 @@ imports:
 framework:
     test: ~
     session:
+        name: "test"
         storage_id: session.storage.mock_file
     profiler:
         collect: false
@@ -11,3 +12,11 @@ framework:
 web_profiler:
     toolbar: false
     intercept_redirects: false
+
+doctrine:
+    dbal:
+        default_connection: default
+        connections:
+            default:
+                driver:   pdo_sqlite
+                path:     %kernel.cache_dir%/test.db

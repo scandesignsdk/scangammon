@@ -43,7 +43,7 @@ class PlayerTransformer implements DataTransformerInterface
     public function reverseTransform($playerid)
     {
         if (! $playerid) {
-            return ;
+            return null;
         }
 
         $player = $this->playerRepository->find($playerid);

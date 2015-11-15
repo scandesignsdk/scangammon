@@ -13,7 +13,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ODM\Document(repositoryClass="GameRepository")
  * @ODM\ChangeTrackingPolicy("DEFERRED_IMPLICIT")
  *
- * @ORM\Table(name="game")
+ * @ORM\Table(name="game", indexes={
+ *  @ORM\Index(name="winner", columns={"winner"}),
+ *  @ORM\Index(name="wintype", columns={"wintype"}),
+ * })
  * @ORM\Entity(repositoryClass="GameRepository")
  */
 class Game

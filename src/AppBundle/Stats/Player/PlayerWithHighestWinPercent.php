@@ -1,16 +1,16 @@
 <?php
 namespace AppBundle\Stats\Player;
 
-use AppBundle\Document\PlayerStat;
-use AppBundle\Document\PlayerStats;
+use AppBundle\Document\Player\Stat;
+use AppBundle\Document\Player\Stats;
 
 class PlayerWithHighestWinPercent extends AbstractPlayerStats
 {
 
-    public function set(PlayerStats $stats)
+    public function set(Stats $stats)
     {
         $player = $this->playerRepository->getHighestWinPercent();
-        $stat = new PlayerStat('Highest win percent', $player->getWinPercent(), $player);
+        $stat = new Stat('Highest win percent', $player->getWinPercent(), $player);
         $stats->addStat($stat);
     }
 }

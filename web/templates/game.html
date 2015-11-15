@@ -14,8 +14,8 @@
         <span ng-if="game.winner != 2" player-html player="game.player2" bold="0" wintype="game.wintype"></span>
     </div>
     <div class="md3">
-        <span class="timer" am-time-ago="game.date" title="{{ game.date }}"></span>
-        <a class="pull-right" href="#" sweetalert sweet-options="{
+        <span class="timer" am-time-ago="game.date" title="{{ game.date | date : 'EEEE, MMMM d, y - HH:mm' }}"></span>
+        <a class="pull-right pointer" sweetalert sweet-options="{
             title:'Are you sure?',
             text:'The game will not be able to be recovered at any time',
             type:'warning',

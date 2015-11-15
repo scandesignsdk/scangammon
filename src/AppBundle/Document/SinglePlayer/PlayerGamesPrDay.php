@@ -1,5 +1,5 @@
 <?php
-namespace AppBundle\Document;
+namespace AppBundle\Document\SinglePlayer;
 
 use JMS\Serializer\Annotation as JMS;
 

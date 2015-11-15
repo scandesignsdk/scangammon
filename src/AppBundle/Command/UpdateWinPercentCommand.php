@@ -3,6 +3,7 @@ namespace AppBundle\Command;
 
 use AppBundle\Entity\Game;
 use AppBundle\Entity\Player;
+use AppBundle\Entity\PlayerRepository;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -20,6 +21,7 @@ class UpdateWinPercentCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
 
+        /** @var Game[] $playerGames */
         $playerGames = [];
         $games = $this->getContainer()->get('repo.game')->findAll();
         /** @var Game $game */
@@ -43,7 +45,6 @@ class UpdateWinPercentCommand extends ContainerAwareCommand
             }
         }
 
-        $playerManager = $this->getContainer()->get('repo.player')->getManager();
         foreach($playerGames as $playerId => $data) {
             $total = $data['win'] + $data['lost'];
             if ($data['win'] == 0) {
@@ -55,11 +56,28 @@ class UpdateWinPercentCommand extends ContainerAwareCommand
             /** @var Player $player */
             $player = $this->getContainer()->get('repo.player')->find($playerId);
             $player->setWinPercent($winpercent);
-            $playerManager->persist($player);
+            $this->getManager()->persist($player);
 
         }
 
-        $playerManager->flush();
+        $this->getManager()->flush();
+    }
+
+    /**
+     * @return PlayerRepository
+     */
+    protected function getRepo()
+    {
+        try {
+            return $this->getContainer()->get('repo.player');
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    protected function getManager()
+    {
+        return $this->getRepo()->getManager();
     }
 
 }

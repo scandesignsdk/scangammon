@@ -1,0 +1,70 @@
+<div class="spctrl" ng-controller="SinglePlayerCtrl" data-ng-init="init()">
+
+    <header>
+        <h2><a href="#/">&laquo;</a> {{ player.name }}</h2>
+    </header>
+
+
+    <div class="row">
+        <!-- Latest games -->
+        <div class="md4">
+            <div games gameslist="games"></div>
+        </div>
+
+        <div class="md4">
+            <!-- against begin -->
+            <div class="panel panel-default">
+                <div class="panel-heading">Your opponents</div>
+                <div class="latestgameslist">
+                    <ul class="list-group">
+                        <li class="list-group-item" ng-repeat="a in against">
+                            <div class="row">
+                                <div class="md5 text-right">
+                                    You
+                                </div>
+                                <div class="md1 text-center text-muted"> vs </div>
+                                <div class="md6">
+                                    <span player-html player="a.player" bold="2"></span>
+                                </div>
+                            </div>
+                            <div class="row" style="margin:5px 20px -15px">
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-success progress-bar-striped" style="width: {{ (a.wins / (a.wins+a.lost)) * 100 }}%">
+                                        <span>{{ (a.wins / (a.wins+a.lost)) * 100 | number : 2 }}% wins</span>
+                                    </div>
+                                    <div class="progress-bar progress-bar-danger progress-bar-striped" style="width: {{ (a.lost / (a.wins+a.lost)) * 100 }}%">
+                                        <span>{{ (a.lost / (a.wins+a.lost)) * 100 | number : 2 }}% loses</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- against end -->
+        </div>
+
+        <div class="md4">
+            <!-- Games pr day -->
+            <div class="panel panel-default">
+                <div class="panel-heading">Games pr day</div>
+                <ul class="list-group" ng-repeat="stat in prday">
+                    <li class="list-group-item">
+                        <b>{{ stat.date | date: 'longDate' }}:</b> {{ stat.count }}
+                    </li>
+                </ul>
+            </div>
+
+            <!-- stats begin -->
+            <div class="panel panel-default">
+                <div class="panel-heading">Stats</div>
+                <ul class="list-group" ng-repeat="stat in stats">
+                    <li class="list-group-item" stat-html stat="stat"></li>
+                </ul>
+            </div>
+            <!-- stats end -->
+        </div>
+
+    </div>
+
+</div>

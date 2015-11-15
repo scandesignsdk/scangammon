@@ -1,8 +1,8 @@
 <?php
 namespace AppBundle\Stats\Player;
 
-use AppBundle\Document\PlayerStat;
-use AppBundle\Document\PlayerStats;
+use AppBundle\Document\Player\Stat;
+use AppBundle\Document\Player\Stats;
 use AppBundle\Entity\GameRepository;
 use AppBundle\Entity\PlayerRepository;
 
@@ -20,10 +20,10 @@ class LeastPlayedPlayerStats extends AbstractPlayerStats
         $this->gameRepository = $gameRepository;
     }
 
-    public function set(PlayerStats $stats)
+    public function set(Stats $stats)
     {
         $result = $this->gameRepository->findLeastGamesByPlayer();
-        $stat = new PlayerStat('Player with least games', $result['numgames'], $this->playerRepository->find($result['player']));
+        $stat = new Stat('Player with least games', $result['numgames'], $this->playerRepository->find($result['player']));
         $stats->addStat($stat);
     }
 }

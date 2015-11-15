@@ -1,6 +1,8 @@
 <?php
 namespace AppBundle\Document;
 
+use AppBundle\Document\Game\Stats as GameStats;
+use AppBundle\Document\Player\Stats as PlayerStats;
 use JMS\Serializer\Annotation as JMS;
 
 class AllStats
@@ -9,7 +11,7 @@ class AllStats
     /**
      * @var GameStats
      *
-     * @JMS\Type("AppBundle\Document\GameStats")
+     * @JMS\Type("AppBundle\Document\Game\Stats")
      * @JMS\SerializedName("gamestats")
      */
     protected $game;
@@ -17,21 +19,21 @@ class AllStats
     /**
      * @var PlayerStats
      *
-     * @JMS\Type("AppBundle\Document\PlayerStats")
+     * @JMS\Type("AppBundle\Document\Player\Stats")
      * @JMS\SerializedName("playerstats")
      */
     protected $player;
 
     public function __construct()
     {
-        $this->game = new GameStats();
-        $this->player = new PlayerStats();
+        $this->game = new Game\Stats();
+        $this->player = new Player\Stats();
     }
 
     /**
      * Get Game
      *
-     * @return GameStats
+     * @return Game\Stats
      */
     public function getGame()
     {
@@ -41,10 +43,10 @@ class AllStats
     /**
      * Set Game
      *
-     * @param GameStats $game
+     * @param Game\Stats $game
      * @return AllStats
      */
-    public function setGame(GameStats $game)
+    public function setGame(Game\Stats $game)
     {
         $this->game = $game;
         return $this;
@@ -53,7 +55,7 @@ class AllStats
     /**
      * Get Player
      *
-     * @return PlayerStats
+     * @return Player\Stats
      */
     public function getPlayer()
     {
@@ -63,10 +65,10 @@ class AllStats
     /**
      * Set Player
      *
-     * @param PlayerStats $player
+     * @param Player\Stats $player
      * @return AllStats
      */
-    public function setPlayer(PlayerStats $player)
+    public function setPlayer(Player\Stats $player)
     {
         $this->player = $player;
         return $this;

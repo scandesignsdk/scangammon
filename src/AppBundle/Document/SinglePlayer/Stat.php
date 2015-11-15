@@ -1,10 +1,10 @@
 <?php
-namespace AppBundle\Document;
+namespace AppBundle\Document\SinglePlayer;
 
 use AppBundle\Entity\Player;
 use JMS\Serializer\Annotation as JMS;
 
-class PlayerStat
+class Stat
 {
 
     /**
@@ -22,32 +22,36 @@ class PlayerStat
     protected $value;
 
     /**
+     * Stat percent
+     * @var float
+     * @JMS\Type("double")
+     */
+    protected $percent = null;
+
+    /**
      * Player
      * @var Player
      * @JMS\Type("AppBundle\Entity\Player")
      */
-    protected $player;
+    protected $player = null;
 
     /**
-     * If the stat has player
-     * @var bool
-     * @JMS\Type("boolean")
+     * @param string $title
+     * @param integer $value
+     * @param float|null $percent
+     * @param Player|null $player
      */
-    protected $hasPlayer = false;
-
-    public function __construct($title, $value, Player $player = null)
+    public function __construct($title, $value, $percent = null, Player $player = null)
     {
         $this->title = $title;
         $this->value = $value;
-
+        $this->percent = $percent;
         $this->player = $player;
-        if ($player != null) {
-            $this->hasPlayer = true;
-        }
-
     }
 
     /**
+     * Get Title
+     *
      * @return string
      */
     public function getTitle()
@@ -56,7 +60,9 @@ class PlayerStat
     }
 
     /**
-     * @return mixed
+     * Get Value
+     *
+     * @return int
      */
     public function getValue()
     {
@@ -64,20 +70,23 @@ class PlayerStat
     }
 
     /**
+     * Get Percent
+     *
+     * @return float
+     */
+    public function getPercent()
+    {
+        return $this->percent;
+    }
+
+    /**
+     * Get Player
+     *
      * @return Player
      */
     public function getPlayer()
     {
         return $this->player;
     }
-
-    /**
-     * @return boolean
-     */
-    public function isHasPlayer()
-    {
-        return $this->hasPlayer;
-    }
-
 
 }

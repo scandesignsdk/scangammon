@@ -28,7 +28,9 @@
         "sensio/generator-bundle": "~2.3",
         "deployer/deployer": "^3.0",
         "doctrine/doctrine-fixtures-bundle": "^2.3",
-        "fzaninotto/faker": "^1.5"
+        "fzaninotto/faker": "^1.5",
+        "phpunit/phpunit": "~4.0",
+        "instaclick/base-test-bundle": "^0.5.2"
     },
     "scripts": {
         "post-install-cmd": [
