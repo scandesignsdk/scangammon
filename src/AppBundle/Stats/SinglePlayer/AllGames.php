@@ -11,6 +11,7 @@ class AllGames extends AbstractStats
     {
         $builder = $this->gameRepository->findByPlayer($player->getId());
         $builder->setMaxResults(50);
+        $builder->orderBy('game.date', 'DESC');
         $results = $builder->getQuery()->getResult();
         $stats->setGames($results);
     }

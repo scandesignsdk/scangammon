@@ -28,11 +28,12 @@
                                 </div>
                             </div>
                             <div class="row" style="margin:5px 20px -15px">
+                                <span class="progress-50percent">|</span>
                                 <div class="progress">
-                                    <div class="progress-bar progress-bar-success" style="width: {{ (a.wins / (a.wins+a.lost)) * 100 }}%">
+                                    <div class="progress-bar progress-bar-striped progress-bar-success" style="width: {{ (a.wins / (a.wins+a.lost)) * 100 }}%">
                                         <span>{{ a.wins }} <small>({{ (a.wins / (a.wins+a.lost)) * 100 | number : 2 }}%)</small></span>
                                     </div>
-                                    <div class="progress-bar progress-bar-danger" style="width: {{ (a.lost / (a.wins+a.lost)) * 100 }}%">
+                                    <div class="progress-bar progress-bar-striped progress-bar-danger" style="width: {{ (a.lost / (a.wins+a.lost)) * 100 }}%">
                                         <span>{{ a.lost }} <small>({{ (a.lost / (a.wins+a.lost)) * 100 | number : 2 }}%)</small></span>
                                     </div>
                                 </div>

@@ -2,13 +2,40 @@
 @import "../../../web/assets/font-awesome/less/font-awesome";
 @import "../../../web/assets/select2-bootstrap-theme/src/select2-bootstrap";
 
+@brand-success:         #1c3d2c;
+@brand-danger:          #960d1f;
+
 @icon-font-path: "./";
 @fa-font-path: ".";
 
 @fpath: '../';
 
+body {
+  height: 100%;
+}
+
 html, body {
   background: url("@{fpath}background.jpg") no-repeat 50% 50%;
+}
+
+footer {
+  .hidden-sm();
+  .hidden-md();
+  .hidden-xs();
+  position:absolute;
+  bottom: 0;
+  width: 100%;
+  > div.well {
+    margin-bottom: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+}
+
+.progress-50percent {
+  display: inline-block;
+  width:100%;
+  padding-left: 49.6%;
 }
 
 .spctrl {
@@ -29,10 +56,6 @@ html, body {
     line-height: 40px;
     font-size: @font-size-h4;
   }
-}
-
-.progress-bar-success > span {
-  color: black;
 }
 
 .pointer {cursor: pointer}

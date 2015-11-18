@@ -32,6 +32,13 @@
     </head>
     <body>
         {% block body %}{% endblock %}
+        {% block footer %}
+            <footer>
+                <div class="well well-sm">
+                    <p class="text-right">Another fine product by <a href="http://www.scandesignmedia.dk">Scandesign Media <img height="19px" src="{{ asset('sd-picto-blue.jpg') }}" alt="" /></a></p>
+                </div>
+            </footer>
+        {% endblock %}
         {% block javascripts %}
             <script src="https://js.pusher.com/3.0/pusher.min.js"></script>
             <script>

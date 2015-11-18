@@ -154,4 +154,23 @@ class GameRepository extends EntityRepository
         return $builder;
     }
 
+    /**
+     * @param Player $player
+     * @return array
+     */
+    public function getGamesPrDay(Player $player)
+    {
+        $rsm = new ResultSetMapping();
+        $rsm->addScalarResult('counter', 'counter', 'integer');
+        $rsm->addScalarResult('date', 'date', 'datetime');
+        $sql = 'SELECT COUNT(*) as counter, date FROM game WHERE player1_id = :p1 OR player2_id = :p2 GROUP BY DAY(date)';
+        $nq = $this->_em->createNativeQuery($sql, $rsm);
+        $nq->setCacheable(true);
+        $nq->setResultCacheLifetime(30);
+        $nq->setResultCacheId(sprintf('games_pr_day_%d', $player->getId()));
+        $nq->setParameter(':p1', $player->getId(), 'integer');
+        $nq->setParameter(':p2', $player->getId(), 'integer');
+        return $nq->execute();
+    }
+
 }

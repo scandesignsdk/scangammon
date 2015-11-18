@@ -24,7 +24,10 @@ abstract class AbstractGameStats implements GameStatsInterface, StatsInterface
     {
         $builder = $this->gameRepository->createQueryBuilder('game');
         $builder->select('COUNT(game.id)');
-        return $builder->getQuery()->getSingleScalarResult();
+        $builder->setCacheable(true);
+        $query = $builder->getQuery();
+        $query->useResultCache(true, 30, 'total_games');
+        return $query->getSingleScalarResult();
     }
 
 }
