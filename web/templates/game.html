@@ -15,17 +15,5 @@
     </div>
     <div class="md3">
         <span class="timer" am-time-ago="game.date" title="{{ game.date | date : 'EEEE, MMMM d, y - HH:mm' }}"></span>
-        <a class="pull-right pointer" sweetalert sweet-options="{
-            title:'Are you sure?',
-            text:'The game will not be able to be recovered at any time',
-            type:'warning',
-            confirmButtonText:'Yes I am',
-            showCancelButton:true,
-            cancelButtonText:'Nope'
-        }" sweet-confirm-option="{
-            title:'Deleted',
-            text:'The game is gone... forever',
-            type:'success',
-        }" sweet-on-confirm="deleteGame(game.id)">&times;</a>
     </div>
 </div>

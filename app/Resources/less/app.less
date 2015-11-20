@@ -100,9 +100,12 @@ html, body {
   font-size: @font-size-small;
 }
 
-.latestgameslist {
+.listheight {
   max-height: 645px;
   overflow: auto;
+  & > ul.list-group {
+    margin-bottom: 0;
+  }
 }
 
 h1 {

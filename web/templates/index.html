@@ -40,6 +40,18 @@
         <div games gameslist="stats.games" ng-show="stats.games.length > 0 && showWinner"></div>
     </div>
 </div>
+
+<script>
+    var select1 = $('#player1').select2({
+        allowClear: true,
+        width: '100%'
+    });
+
+    var select2 = $('#player2').select2({
+        allowClear: true,
+        width: '100%'
+    });
+</script>
 <!-- Create game end -->
 
 <div class="stats">
@@ -82,23 +94,27 @@
             <!-- player list begin -->
             <div class="panel panel-default">
                 <div class="panel-heading">Players</div>
-                <ul class="list-group">
-                    <li class="list-group-item" ng-repeat="player in players | orderBy:'-elo'">
-                        <i class="pull-right fa gold fa-circle" ng-if="$index == 0"></i>
-                        <i class="pull-right fa silver fa-circle" ng-if="$index == 1"></i>
-                        <i class="pull-right fa bronze fa-circle" ng-if="$index == 2"></i>
-                        <span player-html player="player" bold="2"></span>
-                    </li>
-                </ul>
+                <div class="listheight">
+                    <ul class="list-group">
+                        <li class="list-group-item" ng-repeat="player in players | orderBy:'-elo'">
+                            <i class="pull-right fa gold fa-circle" ng-if="$index == 0"></i>
+                            <i class="pull-right fa silver fa-circle" ng-if="$index == 1"></i>
+                            <i class="pull-right fa bronze fa-circle" ng-if="$index == 2"></i>
+                            <span player-html player="player" bold="2"></span>
+                        </li>
+                    </ul>
+                </div>
             </div>
             <!-- player list end -->
 
             <!-- stats begin -->
             <div class="panel panel-default hidden-xs">
                 <div class="panel-heading">Stats</div>
-                <ul class="list-group" ng-repeat="stat in stats">
-                    <li class="list-group-item" stat-html stat="stat"></li>
-                </ul>
+                <div class="listheight">
+                    <ul class="list-group" ng-repeat="stat in stats">
+                        <li class="list-group-item" stat-html stat="stat"></li>
+                    </ul>
+                </div>
             </div>
             <!-- stats end -->
         </div>

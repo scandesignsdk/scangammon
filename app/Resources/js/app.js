@@ -269,6 +269,10 @@ app.controller('StatsCtrl', ['$scope', '$http', function($scope, $http) {
         $scope.stats = setStats(stats);
     });
 
+    channel.bind('game.create', function() {
+        loadPlayerTopList();
+    });
+
     channel.bind('player.create', function(data) {
         $scope.players.push(JSON.parse(data));
     });
