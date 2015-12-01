@@ -31,16 +31,18 @@
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <div id="snowouter">
+            {% block body %}{% endblock %}
+        </div>
         {% block javascripts %}
-            <script src="https://js.pusher.com/3.0/pusher.min.js"></script>
+            <script src="{{ asset('vendor/vendor.js') }}"></script>
             <script>
                 var pusher = new Pusher('{{ pusher_key }}');
                 var channel = pusher.subscribe('scangammon');
                 var select1;
                 var select2;
             </script>
-            <script src="{{ asset('vendor/vendor.js') }}"></script>
+            <script>new Blizzard('snowouter');</script>
             <script src="{{ asset('vendor/app.js') }}"></script>
             {% block scripts %}{% endblock %}
         {% endblock %}

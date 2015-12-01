@@ -153,6 +153,9 @@ app.controller('CreateGameCtrl', ['$scope', '$http', 'notify', function($scope, 
                 $scope.player2 = undefined;
                 $scope.showWinner = false;
                 $scope.wintype = 0;
+
+                select1.select2('val', '').change();
+                select2.select2('val', '').change();
             });
         }
     };
