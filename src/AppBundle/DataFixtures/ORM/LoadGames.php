@@ -63,8 +63,7 @@ class LoadGames implements FixtureInterface, ContainerAwareInterface
             $params->add('winner', $this->faker->boolean() ? Game::P1WINNER : Game::P2WINNER);
             $params->add('date', $this->randomDate());
 
-            $service = $this->container->get('game.service');
-            $service->createGame($params);
+            $this->container->get('game.service')->createGame($params);
         }
 
     }
@@ -79,7 +78,7 @@ class LoadGames implements FixtureInterface, ContainerAwareInterface
      */
     private function randomWinType()
     {
-        $normal = $this->faker->boolean(60);
+        $normal = $this->faker->boolean(70);
         if ($normal) {
             return Game::WINTYPE_NORMAL;
         }

@@ -16,6 +16,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @ORM\Table(name="player", indexes={
  *  @ORM\Index(name="slug", columns={"slug"}),
+ *  @ORM\Index(name="rfidtag", columns={"rfidtag"}),
  *  @ORM\Index(name="win_percent", columns={"win_percent"}),
  * })
  * @ORM\Entity(repositoryClass="PlayerRepository")
@@ -63,6 +64,16 @@ class Player
      * @JMS\Type("string")
      */
     protected $slug;
+
+    /**
+     * Player RFID tag
+     * @var string
+     *
+     * @ODM\String(name="rfidtag")
+     * @ORM\Column(name="rfidtag", type="string", nullable=true)
+     * @JMS\Exclude()
+     */
+    protected $rfidtag;
 
     /**
      * Player ELO
@@ -149,6 +160,24 @@ class Player
     public function setSlug($slug)
     {
         $this->slug = $slug;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRfidtag()
+    {
+        return $this->rfidtag;
+    }
+
+    /**
+     * @param string $rfidtag
+     * @return Player
+     */
+    public function setRfidtag($rfidtag)
+    {
+        $this->rfidtag = $rfidtag;
         return $this;
     }
 
