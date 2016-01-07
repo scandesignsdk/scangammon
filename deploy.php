@@ -2,7 +2,8 @@
 
 require __DIR__ . '/.deployer/symfony.php';
 
-set('shared_dirs', ['app/logs', 'vendor', 'node_modules']);
+set('shared_dirs', ['var/logs', 'vendor', 'node_modules']);
+set('writable_dirs', ['var/cache', 'var/logs']);
 
 /**
  * Migrate database
