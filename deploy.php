@@ -1,6 +1,6 @@
 <?php
 
-require 'vendor/deployer/deployer/recipe/symfony.php';
+require __DIR__ . '/.deployer/symfony.php';
 
 set('shared_dirs', ['app/logs', 'vendor', 'node_modules']);
 
