@@ -2,7 +2,7 @@ services:
 
     stats.game.total:
         class: AppBundle\Stats\Game\TotalGameStats
-        arguments: [@repo.game]
+        arguments: ["@repo.game"]
         tags:
             -  { name: stats.add }
         lazy: true
@@ -10,7 +10,7 @@ services:
 
     stats.game.gammon:
         class: AppBundle\Stats\Game\TotalGammonStats
-        arguments: [@repo.game]
+        arguments: ["@repo.game"]
         tags:
             -  { name: stats.add }
         lazy: true
@@ -18,8 +18,16 @@ services:
 
     stats.game.backgammon:
         class: AppBundle\Stats\Game\TotalBackGammonStats
-        arguments: [@repo.game]
+        arguments: ["@repo.game"]
         tags:
             -  { name: stats.add }
+        lazy: true
+        public: false
+
+    stats.game.todaygames:
+        class: AppBundle\Stats\Game\TodayTotalGamesStats
+        arguments: ["@repo.game"]
+        tags:
+            - { name: stats.add }
         lazy: true
         public: false

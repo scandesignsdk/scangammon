@@ -2,7 +2,7 @@ services:
 
     stats.player.mostplayedplayer:
         class: AppBundle\Stats\Player\MostPlayedPlayerStats
-        arguments: [@repo.player, @repo.game]
+        arguments: ["@repo.player", "@repo.game"]
         tags:
             -  { name: stats.add }
         lazy: true
@@ -10,7 +10,7 @@ services:
 
     stats.player.leastplayedplayer:
         class: AppBundle\Stats\Player\LeastPlayedPlayerStats
-        arguments: [@repo.player, @repo.game]
+        arguments: ["@repo.player", "@repo.game"]
         tags:
             -  { name: stats.add }
         lazy: true
@@ -18,7 +18,7 @@ services:
 
     stats.player.highestwinpercent:
         class: AppBundle\Stats\Player\PlayerWithHighestWinPercent
-        arguments: [@repo.player]
+        arguments: ["@repo.player"]
         tags:
             -  { name: stats.add }
         lazy: true
@@ -26,7 +26,7 @@ services:
 
     stats.player.lowestwinpercent:
         class: AppBundle\Stats\Player\PlayerWithLowestWinPercent
-        arguments: [@repo.player]
+        arguments: ["@repo.player"]
         tags:
             -  { name: stats.add }
         lazy: true
@@ -34,7 +34,7 @@ services:
 
     stats.player.total:
         class: AppBundle\Stats\Player\TotalPlayerStats
-        arguments: [@repo.player]
+        arguments: ["@repo.player"]
         tags:
             -  { name: stats.add }
         lazy: true
@@ -42,7 +42,7 @@ services:
 
     stats.player.avg:
         class: AppBundle\Stats\Player\AverageEloStats
-        arguments: [@repo.player]
+        arguments: ["@repo.player"]
         tags:
             -  { name: stats.add }
         lazy: true

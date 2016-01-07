@@ -4,15 +4,11 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use JMS\Serializer\Annotation as JMS;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * AppBundle\Entity\Player
- *
- * @ODM\Document(repositoryClass="PlayerRepository")
- * @ODM\ChangeTrackingPolicy("DEFERRED_IMPLICIT")
  *
  * @ORM\Table(name="player", indexes={
  *  @ORM\Index(name="slug", columns={"slug"}),
@@ -29,8 +25,6 @@ class Player
      * Player ID
      * @var string
      *
-     * @ODM\Id(strategy="AUTO")
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -43,8 +37,6 @@ class Player
      * Player name
      * @var string
      *
-     * @ODM\String(name="name")
-     *
      * @ORM\Column(name="name", type="string")
      *
      * @JMS\Type("string")
@@ -54,8 +46,6 @@ class Player
     /**
      * Player slug
      * @var string
-     *
-     * @ODM\String(name="slug")
      *
      * @ORM\Column(name="slug", length=128)
      *
@@ -69,7 +59,6 @@ class Player
      * Player RFID tag
      * @var string
      *
-     * @ODM\String(name="rfidtag")
      * @ORM\Column(name="rfidtag", type="string", nullable=true)
      * @JMS\Exclude()
      */
@@ -78,8 +67,6 @@ class Player
     /**
      * Player ELO
      * @var int
-     *
-     * @ODM\Integer(name="elo")
      *
      * @ORM\Column(name="elo", type="integer")
      *
@@ -90,8 +77,6 @@ class Player
     /**
      * Player ELO
      * @var float
-     *
-     * @ODM\Integer(name="win_percent")
      *
      * @ORM\Column(name="win_percent", type="float")
      *

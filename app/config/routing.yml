@@ -8,16 +8,16 @@ NelmioApiDocBundle:
     prefix:   /doc
 
 player:
-    resource: @AppBundle/Resources/config/player_routes.yml
+    resource: "@AppBundle/Resources/config/player_routes.yml"
     type:     rest
     prefix:   /api/player
 
 game:
-    resource: @AppBundle/Resources/config/game_routes.yml
+    resource: "@AppBundle/Resources/config/game_routes.yml"
     type:     rest
     prefix:   /api/game
 
 stats:
-    resource: @AppBundle/Resources/config/stats_routes.yml
+    resource: "@AppBundle/Resources/config/stats_routes.yml"
     type:     rest
     prefix:   /api/stats

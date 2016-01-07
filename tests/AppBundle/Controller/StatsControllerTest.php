@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Tests\Controller;
+namespace Tests\AppBundle\Controller;
 
 class StatsControllerTest extends AbstractController
 {
@@ -21,9 +21,9 @@ class StatsControllerTest extends AbstractController
      */
     public function test_actions($method, $url)
     {
-        $client = static::createClient();
+        $client = static::makeClient();
         $client->request($method, $url);
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertStatusCode(200, $client);
     }
 
 }

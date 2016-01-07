@@ -40,7 +40,7 @@ class PlayerController extends BaseController
      * @ApiDoc(
      *  section="user",
      *  description="Get player data",
-     *  output="AppBundle\Document\SinglePlayer",
+     *  output="AppBundle\Document\SinglePlayer\Stats",
      *  statusCodes={
      *      404 = "Player not found"
      *  }

@@ -22,7 +22,7 @@ gulp.task('setdev', function() {
 
 gulp.task('startsymfonyserver', function() {
     var exec = require('child_process').exec;
-    exec('php app/console server:start', function (err, stdout, stderr) {
+    exec('php bin/console server:start', function (err, stdout, stderr) {
         console.log(stdout);
         console.log(stderr);
     });
@@ -30,7 +30,7 @@ gulp.task('startsymfonyserver', function() {
 
 gulp.task('stopsymfonyserver', function() {
     var exec = require('child_process').exec;
-    exec('php app/console server:stop', function (err, stdout, stderr) {
+    exec('php bin/console server:stop', function (err, stdout, stderr) {
         console.log(stdout);
         console.log(stderr);
     });
@@ -38,8 +38,7 @@ gulp.task('stopsymfonyserver', function() {
 
 gulp.task('less', function() {
     var options = {
-        compress: true,
-        sourceMap: false
+        compress: true
     };
 
     if (dev) {
@@ -84,13 +83,7 @@ gulp.task('js', function() {
 });
 
 gulp.task('font', function() {
-    return gulp.src([
-        paths.src + '/**/*.eot',
-        paths.src + '/**/*.svg',
-        paths.src + '/**/*.ttf',
-        paths.src + '/**/*.woff',
-        paths.src + '/**/*.woff2'
-    ])
+    return gulp.src(paths.src + '/**/*.{ttf,woff,eof,svg}')
         .pipe(flatten())
         .pipe(gulp.dest(paths.dest))
     ;

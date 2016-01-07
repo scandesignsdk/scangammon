@@ -160,6 +160,9 @@ class GameService
 
             list($p1Elo, $p2Elo) = $this->eloCalculator->getNewElo($p1, $p2, $params->get('winner'), $params->get('wintype'));
 
+            $oldp1Elo = $p1->getElo();
+            $oldp2Elo = $p2->getElo();
+
             $p1->setElo($p1Elo);
             $p2->setElo($p2Elo);
 
@@ -170,8 +173,8 @@ class GameService
                 ->setPlayer1($p1)
                 ->setPlayer2($p2)
                 ->setWinner($params->get('winner'))
-                ->setPlayer1Elochange($p1->getElo(), $p1Elo)
-                ->setPlayer2Elochange($p2->getElo(), $p2Elo)
+                ->setPlayer1Elochange($oldp1Elo, $p1Elo)
+                ->setPlayer2Elochange($oldp2Elo, $p2Elo)
                 ->setWintype($params->get('wintype'));
 
             $params = $params->all();

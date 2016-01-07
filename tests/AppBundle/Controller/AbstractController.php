@@ -1,7 +1,7 @@
 <?php
-namespace AppBundle\Tests\Controller;
+namespace Tests\AppBundle\Controller;
 
-use IC\Bundle\Base\TestBundle\Test\Functional\WebTestCase;
+use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 class AbstractController extends WebTestCase
 {

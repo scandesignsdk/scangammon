@@ -3,15 +3,11 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use JMS\Serializer\Annotation as JMS;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * AppBundle\Entity\Game
- *
- * @ODM\Document(repositoryClass="GameRepository")
- * @ODM\ChangeTrackingPolicy("DEFERRED_IMPLICIT")
  *
  * @ORM\Table(name="game", indexes={
  *  @ORM\Index(name="winner", columns={"winner"}),
@@ -31,8 +27,6 @@ class Game
      * Game ID
      * @var string $id
      *
-     * @ODM\Id(strategy="AUTO")
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -45,8 +39,6 @@ class Game
      * Player 1 data
      * @var Player
      *
-     * @ODM\ReferenceOne(name="player1", targetDocument="Player")
-     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Player")
      *
      * @JMS\Type("AppBundle\Entity\Player")
@@ -56,8 +48,6 @@ class Game
     /**
      * Player 2 data
      * @var Player
-     *
-     * @ODM\ReferenceOne(name="player2", targetDocument="Player")
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Player")
      *
@@ -69,8 +59,6 @@ class Game
      * Winner, if 1, player 1 is the winner, if 2, player 2 is the winner
      * @var int
      *
-     * @ODM\Integer(name="winner")
-     *
      * @ORM\Column(name="winner", type="integer")
      *
      * @JMS\Type("integer")
@@ -80,8 +68,6 @@ class Game
     /**
      * Win type, 0 = Normal, 1 = Gammon, 2 = Backgammon
      * @var int
-     *
-     * @ODM\Integer(name="wintype")
      *
      * @ORM\Column(name="wintype", type="integer")
      *
@@ -93,8 +79,6 @@ class Game
      * The player 1 elo change
      * @var int
      *
-     * @ODM\Integer(name="player1_elochange"))
-     *
      * @ORM\Column(name="player1elochange", type="integer")
      *
      * @JMS\Type("integer")
@@ -104,8 +88,6 @@ class Game
     /**
      * The player2 elo change
      * @var int
-     *
-     * @ODM\Integer(name="player2_elochange"))
      *
      * @ORM\Column(name="player2elochange", type="integer")
      *
@@ -117,8 +99,6 @@ class Game
      * When the game was played
      *
      * @var \DateTime
-     *
-     * @ODM\Date(name="date")
      *
      * @ORM\Column(name="date", type="datetime")
      *

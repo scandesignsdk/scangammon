@@ -13,10 +13,10 @@ function doNotify(notify, type, message) {
 app.config(['$routeProvider', function($routeProvider) {
     $routeProvider
         .when('/', {
-            templateUrl: 'templates/index.html'
+            templateUrl: '../templates/index.html'
         })
         .when('/player/:slug', {
-            templateUrl: 'templates/singleplayer.html'
+            templateUrl: '../templates/singleplayer.html'
         })
         .otherwise({
             redirectTo: '/'

@@ -2,7 +2,7 @@ services:
 
     stats.sp.allgames:
         class: AppBundle\Stats\SinglePlayer\AllGames
-        arguments: [@repo.player, @repo.game]
+        arguments: ["@repo.player", "@repo.game"]
         tags:
             -  { name: stats.add }
         lazy: true
@@ -10,7 +10,7 @@ services:
 
     stats.sp.gamesprday:
         class: AppBundle\Stats\SinglePlayer\GamesPrDay
-        arguments: [@repo.player, @repo.game]
+        arguments: ["@repo.player", "@repo.game"]
         tags:
             -  { name: stats.add }
         lazy: true
@@ -18,7 +18,7 @@ services:
 
     stats.sp.backgammons:
         class: AppBundle\Stats\SinglePlayer\TotalBackGammons
-        arguments: [@repo.player, @repo.game]
+        arguments: ["@repo.player", "@repo.game"]
         tags:
             -  { name: stats.add }
         lazy: true
@@ -26,7 +26,7 @@ services:
 
     stats.sp.gammons:
         class: AppBundle\Stats\SinglePlayer\TotalGammons
-        arguments: [@repo.player, @repo.game]
+        arguments: ["@repo.player", "@repo.game"]
         tags:
             -  { name: stats.add }
         lazy: true
@@ -34,7 +34,7 @@ services:
 
     stats.sp.games:
         class: AppBundle\Stats\SinglePlayer\TotalGames
-        arguments: [@repo.player, @repo.game]
+        arguments: ["@repo.player", "@repo.game"]
         tags:
             -  { name: stats.add }
         lazy: true
@@ -42,7 +42,7 @@ services:
 
     stats.sp.winrate:
         class: AppBundle\Stats\SinglePlayer\WinRate
-        arguments: [@repo.player, @repo.game]
+        arguments: ["@repo.player", "@repo.game"]
         tags:
             -  { name: stats.add }
         lazy: true
@@ -50,7 +50,7 @@ services:
 
     stats.sp.wins:
         class: AppBundle\Stats\SinglePlayer\Wins
-        arguments: [@repo.player, @repo.game]
+        arguments: ["@repo.player", "@repo.game"]
         tags:
             -  { name: stats.add }
         lazy: true
@@ -58,7 +58,7 @@ services:
 
     stats.sp.lost:
         class: AppBundle\Stats\SinglePlayer\Lost
-        arguments: [@repo.player, @repo.game]
+        arguments: ["@repo.player", "@repo.game"]
         tags:
             -  { name: stats.add }
         lazy: true
